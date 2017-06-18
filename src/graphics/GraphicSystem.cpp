@@ -1,5 +1,8 @@
 #include "GraphicSystem.h"
+
 #include "Ogre.h"
+#include <SDL2\SDL.h>
+#include <SDL2\SDL_syswm.h>
 
 GraphicSystem::GraphicSystem()
 {
@@ -11,15 +14,11 @@ GraphicSystem::~GraphicSystem()
 
 void GraphicSystem::initialize()
 {
-	/*
-	#if OGRE_USE_SDL2
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
 	{
-	OGRE_EXCEPT( Ogre::Exception::ERR_INTERNAL_ERROR, "Cannot initialize SDL2!",
-	"GraphicsSystem::initialize" );
+		OGRE_EXCEPT( Ogre::Exception::ERR_INTERNAL_ERROR, "Cannot initialize SDL2!", "GraphicsSystem::initialize" );
 	}
-	#endif
-
+/*
 	Ogre::String pluginsPath;
 	// only use plugins.cfg if not static
 	#ifndef OGRE_STATIC_LIB

@@ -75,14 +75,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\ogreBuild\sdk\include\OIS\;$(SolutionDir)..\ogreBuild\sdk\include\OGRE\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\ogreBuild\sdk\include\OIS\;$(SolutionDir)..\ogredeps\build\install\include\;$(SolutionDir)..\ogreBuild\sdk\include\OGRE\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\ogreBuild\sdk\include\OIS\;$(SolutionDir)..\ogreBuild\sdk\include\OGRE\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\ogreBuild\sdk\include\OIS\;$(SolutionDir)..\ogredeps\build\install\include\;$(SolutionDir)..\ogreBuild\sdk\include\OGRE\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -106,7 +106,12 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;msimg32.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2main.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2.lib;$(SolutionDir)..\ogreBuild\sdk\lib\debug\OgreHlmsPbs_d.lib;$(SolutionDir)..\ogreBuild\sdk\lib\debug\OgreHlmsUnlit_d.lib;$(SolutionDir)..\ogreBuild\sdk\lib\debug\OgreMain_d.lib;$(SolutionDir)..\ogredeps\build\install\lib\Debug\FreeImage_d.lib;$(SolutionDir)..\ogredeps\build\install\lib\Debug\zziplib_d.lib;$(SolutionDir)..\ogredeps\build\install\lib\Debug\zlib_d.lib;$(SolutionDir)..\ogredeps\build\install\lib\Debug\freetype_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)..\ogreBuild\sdk\bin\debug\*.dll" "$(TargetDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,6 +143,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;msimg32.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2main.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2.lib;$(SolutionDir)..\ogreBuild\sdk\lib\release\OgreHlmsPbs.lib;$(SolutionDir)..\ogreBuild\sdk\lib\release\OgreHlmsUnlit.lib;$(SolutionDir)..\ogreBuild\sdk\lib\release\OgreMain.lib;$(SolutionDir)..\ogredeps\build\install\lib\Release\FreeImage.lib;$(SolutionDir)..\ogredeps\build\install\lib\Release\zziplib.lib;$(SolutionDir)..\ogredeps\build\install\lib\Release\zlib.lib;$(SolutionDir)..\ogredeps\build\install\lib\Release\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

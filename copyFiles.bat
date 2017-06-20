@@ -1,4 +1,7 @@
-copy "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2"
+rem Копирую dll
+mkdir "%2bin"
+copy "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2bin\"
+
 mkdir "%2config"
 mkdir "%2logs"
 copy "%1config\*" "%2config"

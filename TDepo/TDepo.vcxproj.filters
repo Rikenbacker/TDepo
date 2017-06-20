@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{0d442e6c-a2af-4c99-9754-d2cc54b74bab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\TDepo.cpp">
@@ -26,5 +29,23 @@
     <ClInclude Include="..\src\graphics\GraphicSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TDepo.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\config\graphic.cfg">
+      <Filter>config</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\config\plugins.cfg">
+      <Filter>config</Filter>
+    </None>
   </ItemGroup>
 </Project>

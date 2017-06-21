@@ -1,11 +1,13 @@
 #include "GraphicSystem.h"
 
 #include "Overlay\OgreOverlaySystem.h"
+#include "Compositor/OgreCompositorManager2.h"
 
 #include <SDL2\SDL.h>
 #include <SDL2\SDL_syswm.h>
 
-GraphicSystem::GraphicSystem()
+GraphicSystem::GraphicSystem(Ogre::ColourValue backgroundColour) :
+	m_backgroundColour(backgroundColour)
 {
 }
 
@@ -123,10 +125,11 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 /*
 	setupResources();
 	loadResources();
+*/
 	chooseSceneManager();
 	createCamera();
-	mWorkspace = setupCompositor();
-
+	m_workspace = setupCompositor();
+/*
 	#if OGRE_USE_SDL2
 	mInputHandler = new SdlInputHandler( mSdlWindow, mCurrentGameState,
 	mCurrentGameState, mCurrentGameState );
@@ -141,13 +144,12 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 void GraphicSystem::deinitialize(void)
 {
 	m_renderWindow = nullptr;
-	/*
-	if (mSceneManager)
-		mSceneManager->removeRenderQueueListener(mOverlaySystem);
+	
+	if (m_sceneManager)
+		m_sceneManager->removeRenderQueueListener(m_overlaySystem);
 
-	OGRE_DELETE mOverlaySystem;
-	mOverlaySystem = 0;
-*/
+	OGRE_DELETE m_overlaySystem;
+	m_overlaySystem = nullptr;
 
 /*
 	delete mInputHandler;
@@ -166,4 +168,83 @@ void GraphicSystem::deinitialize(void)
 	}
 
 	SDL_Quit();
+}
+
+void GraphicSystem::update(float timeSinceLast)
+{
+	Ogre::WindowEventUtilities::messagePump();
+/*
+	SDL_Event evt;
+	while (SDL_PollEvent(&evt))
+	{
+		switch (evt.type)
+		{
+		case SDL_WINDOWEVENT:
+			handleWindowEvent(evt);
+			break;
+		case SDL_QUIT:
+			mQuit = true;
+			break;
+		default:
+			break;
+		}
+
+		mInputHandler->_handleSdlEvents(evt);
+	}
+*/
+	if (m_renderWindow->isVisible())
+		m_root->renderOneFrame();
+
+	//SDL_SetWindowPosition( mSdlWindow, 0, 0 );
+	/*SDL_Rect rect;
+	SDL_GetDisplayBounds( 0, &rect );
+	SDL_GetDisplayBounds( 0, &rect );*/
+}
+
+void GraphicSystem::chooseSceneManager()
+{
+	Ogre::InstancingThreadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
+#if OGRE_DEBUG_MODE
+	//Debugging multithreaded code is a PITA, disable it.
+	const size_t numThreads = 1;
+#else
+	//getNumLogicalCores() may return 0 if couldn't detect
+	const size_t numThreads = std::max<size_t>(1, Ogre::PlatformInformation::getNumLogicalCores());
+	//See doxygen documentation regarding culling methods.
+	//In some cases you may still want to use single thread.
+	//if( numThreads > 1 )
+	//	threadedCullingMethod = Ogre::INSTANCING_CULLING_THREADED;
+#endif
+	// Create the SceneManager, in this case a generic one
+	m_sceneManager = m_root->createSceneManager(Ogre::ST_GENERIC, numThreads, threadedCullingMethod, "ExampleSMInstance");
+	m_sceneManager->addRenderQueueListener(m_overlaySystem);
+
+	//Set sane defaults for proper shadow mapping
+	m_sceneManager->setShadowDirectionalLightExtrusionDistance(500.0f);
+	m_sceneManager->setShadowFarDistance(500.0f);
+}
+
+void GraphicSystem::createCamera(void)
+{
+	m_camera = m_sceneManager->createCamera("Main Camera");
+
+	m_camera->setPosition(Ogre::Vector3(0, 5, 15));
+	// Look back along -Z
+	m_camera->lookAt(Ogre::Vector3(0, 0, 0));
+	m_camera->setNearClipDistance(0.2f);
+	m_camera->setFarClipDistance(1000.0f);
+	m_camera->setAutoAspectRatio(true);
+}
+
+Ogre::CompositorWorkspace* GraphicSystem::setupCompositor()
+{
+	Ogre::CompositorManager2 *compositorManager = m_root->getCompositorManager2();
+
+	const Ogre::String workspaceName("MyWorkspace");
+	if (!compositorManager->hasWorkspaceDefinition(workspaceName))
+	{
+		compositorManager->createBasicWorkspaceDef(workspaceName, m_backgroundColour, Ogre::IdString());
+	}
+
+	return compositorManager->addWorkspace(m_sceneManager, m_renderWindow, m_camera, workspaceName, true);
 }

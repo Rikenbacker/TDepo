@@ -31,11 +31,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 
 	while (true)
 	{
-/*		graphicsSystem.beginFrameParallel();
-		graphicsSystem.update(static_cast<float>(timeSinceLast));
-		graphicsSystem.finishFrameParallel();
-		graphicsSystem.finishFrame();
-*/
+//		graphicsSystem.beginFrameParallel();
+		myGraphic->update(static_cast<float>(timeSinceLast));
+//		graphicsSystem.finishFrameParallel();
+//		graphicsSystem.finishFrame();
+
 		if (!renderWindow->isVisible())
 		{
 			//Don't burn CPU cycles unnecessary when we're minimized.
@@ -60,6 +60,7 @@ void setActiveDir()
 
 	GetModuleFileName(GetModuleHandle(NULL), path, MAX_PATH);
 	std::wstring path_in_string = path;
-	path_in_string = path_in_string.substr(0, path_in_string.find_last_of('\\'));
+	path_in_string = path_in_string.substr(0, path_in_string.find_last_of(L"\\bin\\") - 4);
+
 	SetCurrentDirectory(path_in_string.c_str());
 }

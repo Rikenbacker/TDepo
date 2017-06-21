@@ -44,7 +44,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\config\plugins.cfg">
+    <None Include="..\config\plugins_Debug.cfg">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\config\plugins_Release.cfg">
       <Filter>config</Filter>
     </None>
   </ItemGroup>

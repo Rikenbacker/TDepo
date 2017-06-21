@@ -9,7 +9,7 @@
 class GraphicSystem
 {
 	public:
-		GraphicSystem();
+		GraphicSystem(Ogre::ColourValue backgroundColour = Ogre::ColourValue(0.2f, 0.4f, 0.6f));
 		~GraphicSystem();
 
 		bool initialize(const std::string &windowTitle);
@@ -20,6 +20,9 @@ class GraphicSystem
 		void setPluginPath(std::string);
 
 		Ogre::RenderWindow* getRenderWindow(void) const { return m_renderWindow; }
+		void GraphicSystem::update(float);
+
+		Ogre::SceneManager *getSceneManager() const { return m_sceneManager; }
 
 	private:
 		Ogre::Root *m_root = nullptr;
@@ -31,6 +34,14 @@ class GraphicSystem
 		SDL_Window *m_sdlWindow = nullptr;
 		Ogre::RenderWindow *m_renderWindow = nullptr;
 		Ogre::v1::OverlaySystem *m_overlaySystem = nullptr;
+		Ogre::SceneManager *m_sceneManager = nullptr;
+		Ogre::Camera *m_camera = nullptr;
+		Ogre::CompositorWorkspace *m_workspace = nullptr;
 
+		Ogre::ColourValue m_backgroundColour;
+
+		void chooseSceneManager();
+		void createCamera();
+		Ogre::CompositorWorkspace* setupCompositor();
 };
 

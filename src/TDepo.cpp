@@ -2,6 +2,9 @@
 #include <string>
 
 #include "graphics\GraphicSystem.h"
+#include "OgreLogManager.h"
+#include "OgreSceneManager.h"
+#include "OgreItem.h"
 
 void setActiveDir();
 
@@ -14,7 +17,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	
 	myGraphic->setConfigPath("config\\");
 	myGraphic->setLogPath("logs\\");
-	myGraphic->setPluginPath("config\\");
+	myGraphic->setResourcePath("data\\");
 	
 	if (!myGraphic->initialize("Train Depo"))
 	{
@@ -23,6 +26,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	};
 
 	Ogre::RenderWindow *renderWindow = myGraphic->getRenderWindow();
+
+	Ogre::Item *item = myGraphic->getSceneManager()->createItem("ogrehead.mesh", Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, Ogre::SCENE_DYNAMIC);
+	Ogre::SceneNode *sceneNode = myGraphic->getSceneManager()->getRootSceneNode(Ogre::SCENE_DYNAMIC)->createChildSceneNode(Ogre::SCENE_DYNAMIC);
+	sceneNode->attachObject(item);
 
 	Ogre::Timer timer;
 	unsigned long startTime = timer.getMicroseconds();

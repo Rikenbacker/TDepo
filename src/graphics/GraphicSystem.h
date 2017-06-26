@@ -17,7 +17,7 @@ class GraphicSystem
 
 		void setConfigPath(std::string);
 		void setLogPath(std::string);
-		void setPluginPath(std::string);
+		void setResourcePath(std::string);
 
 		Ogre::RenderWindow* getRenderWindow(void) const { return m_renderWindow; }
 		void GraphicSystem::update(float);
@@ -29,7 +29,7 @@ class GraphicSystem
 
 		std::string m_configPath = "";
 		std::string m_logPath = "";
-		std::string m_pluginPath = "";
+		std::string m_resourcePath = "";
 
 		SDL_Window *m_sdlWindow = nullptr;
 		Ogre::RenderWindow *m_renderWindow = nullptr;
@@ -42,6 +42,10 @@ class GraphicSystem
 
 		void chooseSceneManager();
 		void createCamera();
+		void setupResources();
 		Ogre::CompositorWorkspace* setupCompositor();
+		void loadResources();
+		void registerHlms();
+		static void addResourceLocation(const Ogre::String &archName, const Ogre::String &typeName, const Ogre::String &secName);
 };
 

@@ -1,7 +1,9 @@
 #include "GraphicSystem.h"
 
 #include "Overlay\OgreOverlaySystem.h"
-#include "Compositor/OgreCompositorManager2.h"
+#include "Compositor\OgreCompositorManager2.h"
+#include "Hlms\Unlit\OgreHlmsUnlit.h"
+#include "Hlms\Pbs\OgreHlmsPbs.h"
 
 #include <SDL2\SDL.h>
 #include <SDL2\SDL_syswm.h>
@@ -25,9 +27,9 @@ void GraphicSystem::setLogPath(std::string logPath)
 	m_logPath = logPath;
 }
 
-void GraphicSystem::setPluginPath(std::string pluginPath)
+void GraphicSystem::setResourcePath(std::string pluginPath)
 {
-	m_pluginPath = pluginPath;
+	m_resourcePath = pluginPath;
 }
 
 bool GraphicSystem::initialize(const std::string &windowTitle)
@@ -37,7 +39,7 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 		OGRE_EXCEPT( Ogre::Exception::ERR_INTERNAL_ERROR, "Cannot initialize SDL2!", "GraphicsSystem::initialize" );
 	}
 
-	m_root = OGRE_NEW Ogre::Root(m_pluginPath + "plugins.cfg", m_configPath + "graphic.cfg",	m_logPath + "ogre.log" );
+	m_root = OGRE_NEW Ogre::Root(m_configPath + "plugins.cfg", m_configPath + "graphic.cfg",	m_logPath + "ogre.log" );
 
 	if( !m_root->restoreConfig() )
 	{
@@ -122,10 +124,10 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 
 	m_overlaySystem = OGRE_NEW Ogre::v1::OverlaySystem();
 
-/*
+
 	setupResources();
 	loadResources();
-*/
+
 	chooseSceneManager();
 	createCamera();
 	m_workspace = setupCompositor();
@@ -139,6 +141,120 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 	*/
 
 	return true;
+}
+
+void GraphicSystem::loadResources()
+{
+	registerHlms();
+
+	// Initialise, parse scripts etc
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+void GraphicSystem::registerHlms()
+{
+	Ogre::ConfigFile cf;
+	cf.load(m_resourcePath + "data.cfg");
+
+	Ogre::String dataFolder = cf.getSetting("DoNotUseAsResource", "Hlms", "");
+
+	if (dataFolder.empty())
+		dataFolder = "./";
+	else if (*(dataFolder.end() - 1) != '/')
+		dataFolder += "/";
+
+	Ogre::RenderSystem *renderSystem = m_root->getRenderSystem();
+/*	Ogre::Archive *archiveUnlit = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder, "FileSystem", true);
+	Ogre::ArchiveVec library;
+	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit, &library);
+	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsUnlit);
+	library.pop_back();
+	*/
+
+	Ogre::String shaderSyntax = "GLSL";
+	if (renderSystem->getName() == "Direct3D11 Rendering Subsystem")
+		shaderSyntax = "HLSL";
+	else if (renderSystem->getName() == "Metal Rendering Subsystem")
+		shaderSyntax = "Metal";
+	
+	Ogre::Archive *archiveLibrary = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Common/" + shaderSyntax, "FileSystem", true);
+	Ogre::Archive *archiveLibraryAny = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Common/Any", "FileSystem", true);
+	Ogre::Archive *archivePbsLibraryAny = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Pbs/Any", "FileSystem", true);
+	Ogre::Archive *archiveUnlitLibraryAny = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Unlit/Any", "FileSystem", true);
+
+	Ogre::ArchiveVec library;
+	library.push_back(archiveLibrary);
+	library.push_back(archiveLibraryAny);
+
+	Ogre::Archive *archiveUnlit = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Unlit/" + shaderSyntax, "FileSystem", true);
+
+	library.push_back(archiveUnlitLibraryAny);
+	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit, &library);
+	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsUnlit);
+	library.pop_back();
+
+	Ogre::Archive *archivePbs = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder + "Hlms/Pbs/" + shaderSyntax, "FileSystem", true);
+	library.push_back(archivePbsLibraryAny);
+	Ogre::HlmsPbs *hlmsPbs = OGRE_NEW Ogre::HlmsPbs(archivePbs, &library);
+	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsPbs);
+	library.pop_back();
+	
+	if (renderSystem->getName() == "Direct3D11 Rendering Subsystem")
+	{
+		//Set lower limits 512kb instead of the default 4MB per Hlms in D3D 11.0
+		//and below to avoid saturating AMD's discard limit (8MB) or
+		//saturate the PCIE bus in some low end machines.
+		bool supportsNoOverwriteOnTextureBuffers;
+		renderSystem->getCustomAttribute("MapNoOverwriteOnDynamicBufferSRV", &supportsNoOverwriteOnTextureBuffers);
+
+		if (!supportsNoOverwriteOnTextureBuffers)
+		{
+			hlmsPbs->setTextureBufferDefaultSize(512 * 1024);
+			hlmsUnlit->setTextureBufferDefaultSize(512 * 1024);
+		}
+	}
+}
+
+void GraphicSystem::addResourceLocation(const Ogre::String &archName, const Ogre::String &typeName, const Ogre::String &secName)
+{
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+}
+
+void GraphicSystem::setupResources(void)
+{
+	// Load resource paths from config file
+	Ogre::ConfigFile cf;
+	cf.load(m_resourcePath + "data.cfg");
+
+	// Go through all sections & settings in the file
+	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+	Ogre::String secName, typeName, archName;
+	while (seci.hasMoreElements())
+	{
+		secName = seci.peekNextKey();
+		Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+
+		if (secName != "Hlms")
+		{
+			Ogre::ConfigFile::SettingsMultiMap::iterator i;
+			for (i = settings->begin(); i != settings->end(); ++i)
+			{
+				typeName = i->first;
+				archName = i->second;
+				addResourceLocation(archName, typeName, secName);
+			}
+		}
+	}
+
+	Ogre::String dataFolder = cf.getSetting("DoNotUseAsResource", "Hlms", "");
+
+	if (dataFolder.empty())
+		dataFolder = "./";
+	else if (*(dataFolder.end() - 1) != '/')
+		dataFolder += "/";
+
+	addResourceLocation(dataFolder, "FileSystem", "General");
 }
 
 void GraphicSystem::deinitialize(void)
@@ -228,7 +344,7 @@ void GraphicSystem::createCamera(void)
 {
 	m_camera = m_sceneManager->createCamera("Main Camera");
 
-	m_camera->setPosition(Ogre::Vector3(0, 5, 15));
+	m_camera->setPosition(Ogre::Vector3(0, 150, 150));
 	// Look back along -Z
 	m_camera->lookAt(Ogre::Vector3(0, 0, 0));
 	m_camera->setNearClipDistance(0.2f);

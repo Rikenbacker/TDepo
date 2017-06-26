@@ -3,17 +3,26 @@ rem Копирую dll
 mkdir "%2bin"
 rem del "%2bin\*" /Q
 copy "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2bin\"
+if "%3" == "Debug" (
+copy "%1..\ogreBuild\sdk\bin\%3\*.pdb" "%2bin\"
+)
 
 rem Копирую и заменяю в завимимости от типа сборки настройки
-mkdir "%2config"
-del %2config\* /Q
-copy "%1config\*" "%2config"
+call :CopyDirectory %1 %2 config
 call :RenameDebugFiles %2config\ %3
 call :DeleteDebugFiles %2config\
 
+rem Создаю папку с логами
 mkdir "%2logs"
 del %2logs\* /Q
 
+rem Копирую папку с ресурсами
+call :CopyDirectory %1 %2 data
+call :CopyDirectory %1 %2 data\materials
+call :CopyDirectory %1 %2 data\materials\script
+call :CopyDirectory %1 %2 data\materials\textures
+
+call :CopyDirectory %1 %2 data\models
 
 goto end
 
@@ -49,6 +58,12 @@ set zz=%zz:~0,-1%
 
 ren %4%1%2 %zz%%2
 
+exit /B 0
+
+:CopyDirectory
+mkdir "%2%3"
+del %2%3\* /Q
+copy "%1%3\*" "%2%3"
 exit /B 0
 
 

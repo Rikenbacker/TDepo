@@ -30,6 +30,16 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	Ogre::Item *item = myGraphic->getSceneManager()->createItem("ogrehead.mesh", Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, Ogre::SCENE_DYNAMIC);
 	Ogre::SceneNode *sceneNode = myGraphic->getSceneManager()->getRootSceneNode(Ogre::SCENE_DYNAMIC)->createChildSceneNode(Ogre::SCENE_DYNAMIC);
 	sceneNode->attachObject(item);
+	/*
+	Ogre::Light *light = myGraphic->getSceneManager()->createLight();
+	Ogre::SceneNode *lightNode = myGraphic->getSceneManager()->getRootSceneNode()->createChildSceneNode();
+	lightNode->attachObject(light);
+	light->setPowerScale(Ogre::Math::PI); //Since we don't do HDR, counter the PBS' division by PI
+	light->setType(Ogre::Light::LT_DIRECTIONAL);
+	light->setDirection(Ogre::Vector3(-1, -1, -1).normalisedCopy());*/
+
+	myGraphic->getSceneManager()->setAmbientLight(Ogre::ColourValue::White, Ogre::ColourValue::White, Ogre::Vector3::UNIT_Y);
+
 
 	Ogre::Timer timer;
 	unsigned long startTime = timer.getMicroseconds();

@@ -131,12 +131,10 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 	chooseSceneManager();
 	createCamera();
 	m_workspace = setupCompositor();
-/*
-	#if OGRE_USE_SDL2
-	mInputHandler = new SdlInputHandler( mSdlWindow, mCurrentGameState,
-	mCurrentGameState, mCurrentGameState );
-	#endif
 
+	m_inputHandler = new SdlInputHandler(m_sdlWindow, mCurrentGameState, mCurrentGameState, mCurrentGameState );
+
+/*
 	BaseSystem::initialize();
 	*/
 

@@ -2,13 +2,13 @@
 rem Копирую dll
 mkdir "%2bin"
 rem del "%2bin\*" /Q
-copy "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2bin\"
+xcopy /D /Y "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2bin\"
 if "%3" == "Debug" (
-copy "%1..\ogreBuild\sdk\bin\%3\*.pdb" "%2bin\"
+xcopy /D /Y "%1..\ogreBuild\sdk\bin\%3\*.pdb" "%2bin\"
 )
 
 rem Копирую и заменяю в завимимости от типа сборки настройки
-call :CopyDirectory %1 %2 config
+xcopy /D /E /Y /I %1config\* %2config
 call :RenameDebugFiles %2config\ %3
 call :DeleteDebugFiles %2config\
 
@@ -17,12 +17,7 @@ mkdir "%2logs"
 del %2logs\* /Q
 
 rem Копирую папку с ресурсами
-call :CopyDirectory %1 %2 data
-call :CopyDirectory %1 %2 data\materials
-call :CopyDirectory %1 %2 data\materials\script
-call :CopyDirectory %1 %2 data\materials\textures
-
-call :CopyDirectory %1 %2 data\models
+xcopy /D /E /Y /I %1data\* %2data
 
 goto end
 

@@ -6,6 +6,8 @@
 #include <string>
 #include <SDL2\SDL.h>
 
+#include "SdlInputHandler.h"
+
 class GraphicSystem
 {
 	public:
@@ -37,6 +39,7 @@ class GraphicSystem
 		Ogre::SceneManager *m_sceneManager = nullptr;
 		Ogre::Camera *m_camera = nullptr;
 		Ogre::CompositorWorkspace *m_workspace = nullptr;
+		SdlInputHandler *m_inputHandler = nullptr;
 
 		Ogre::ColourValue m_backgroundColour;
 

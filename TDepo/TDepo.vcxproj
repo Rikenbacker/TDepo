@@ -170,11 +170,19 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\gameState\gameState.cpp" />
+    <ClCompile Include="..\src\gameState\statePlay.cpp" />
     <ClCompile Include="..\src\graphics\GraphicSystem.cpp" />
+    <ClCompile Include="..\src\graphics\SdlInputHandler.cpp" />
     <ClCompile Include="..\src\TDepo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\gameState\gameState.h" />
+    <ClInclude Include="..\src\gameState\gameStateDefines.h" />
+    <ClInclude Include="..\src\gameState\statePlay.h" />
     <ClInclude Include="..\src\graphics\GraphicSystem.h" />
+    <ClInclude Include="..\src\graphics\InputListeners.h" />
+    <ClInclude Include="..\src\graphics\SdlInputHandler.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -7,12 +7,6 @@
 class SdlInputHandler
 {
     SDL_Window  *mSdlWindow;
-	/*
-    BaseSystem          *mGraphicsSystem;
-    BaseSystem          *mLogicSystem;*/
-    MouseListener       *mMouseListener;
-    KeyboardListener    *mKeyboardListener;
-    JoystickListener    *mJoystickListener;
 
     // User settings
     /// User setting. From the SDL docs: While the mouse is in relative mode, the
@@ -52,10 +46,7 @@ class SdlInputHandler
     bool handleWarpMotion( const SDL_MouseMotionEvent& evt );
 
 public:
-    SdlInputHandler( SDL_Window *sdlWindow,
-                        MouseListener *mouseListener,
-                        KeyboardListener *keyboardListener,
-                        JoystickListener *joystickListener );
+    SdlInputHandler( SDL_Window *sdlWindow);
     virtual ~SdlInputHandler();
 
     void _handleSdlEvents( const SDL_Event& evt );
@@ -73,4 +64,14 @@ public:
 
     /// Shows or hides the mouse cursor.
     void setMouseVisible( bool visible );
+
+	public:
+		void addListener(InputEventsType type, SDLEventCallback funct);
+
+	private:
+		LSDLEvent m_MouseWheelScrollListeners;
+		LSDLEvent m_KeyPressedlListeners;
+		LSDLEvent m_MouseMoveListeners;
+
+
 };

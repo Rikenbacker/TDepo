@@ -132,8 +132,6 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 	createCamera();
 	m_workspace = setupCompositor();
 
-	m_inputHandler = new SdlInputHandler(m_sdlWindow, mCurrentGameState, mCurrentGameState, mCurrentGameState );
-
 /*
 	BaseSystem::initialize();
 	*/
@@ -265,11 +263,6 @@ void GraphicSystem::deinitialize(void)
 	OGRE_DELETE m_overlaySystem;
 	m_overlaySystem = nullptr;
 
-/*
-	delete mInputHandler;
-	mInputHandler = 0;
-*/
-
 	OGRE_DELETE m_root;
 	m_root = nullptr;
 
@@ -287,25 +280,7 @@ void GraphicSystem::deinitialize(void)
 void GraphicSystem::update(float timeSinceLast)
 {
 	Ogre::WindowEventUtilities::messagePump();
-/*
-	SDL_Event evt;
-	while (SDL_PollEvent(&evt))
-	{
-		switch (evt.type)
-		{
-		case SDL_WINDOWEVENT:
-			handleWindowEvent(evt);
-			break;
-		case SDL_QUIT:
-			mQuit = true;
-			break;
-		default:
-			break;
-		}
 
-		mInputHandler->_handleSdlEvents(evt);
-	}
-*/
 	if (m_renderWindow->isVisible())
 		m_root->renderOneFrame();
 

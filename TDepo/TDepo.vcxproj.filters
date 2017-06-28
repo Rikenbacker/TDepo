@@ -33,6 +33,12 @@
     <ClCompile Include="..\src\graphics\SdlInputHandler.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\graphics\InputSystem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\InputListeners.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\GraphicSystem.h">
@@ -54,6 +60,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\src\graphics\InputListeners.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\InputSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

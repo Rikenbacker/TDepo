@@ -2,6 +2,7 @@
 #include <string>
 
 #include "graphics\GraphicSystem.h"
+#include "graphics\InputSystem.h"
 #include "gameState\gameState.h"
 #include "gameState\statePlay.h"
 
@@ -14,33 +15,37 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	setActiveDir();
 	SetDllDirectory(L"bin\\");
 
-	GraphicSystem *myGraphic = new GraphicSystem();
+	GraphicSystem *graphicSystem = new GraphicSystem();
 	
-	myGraphic->setConfigPath("config\\");
-	myGraphic->setLogPath("logs\\");
-	myGraphic->setResourcePath("data\\");
+	graphicSystem->setConfigPath("config\\");
+	graphicSystem->setLogPath("logs\\");
+	graphicSystem->setResourcePath("data\\");
 	
-	if (!myGraphic->initialize("Train Depo"))
+	if (!graphicSystem->initialize("Train Depo"))
 	{
-		myGraphic->deinitialize();
+		graphicSystem->deinitialize();
 		return -1;
 	};
 
-	Ogre::RenderWindow *renderWindow = myGraphic->getRenderWindow();
+	Ogre::RenderWindow *renderWindow = graphicSystem->getRenderWindow();
+	InputSystem *inputSystem = new InputSystem(graphicSystem);
 
 	Ogre::Timer timer;
 	unsigned long startTime = timer.getMicroseconds();
 
 	double timeSinceLast = 1.0 / 60.0;
 
-	gameState *game = new statePlay(myGraphic);
+	gameState *game = new statePlay(graphicSystem, inputSystem);
 
-	while (game->getState() != GAME_STATE_EXIT)
+	while (game->getState() != GameCondition::Exit)
 	{
+		inputSystem->update();
+
+		game->tick();
 		game->tick();
 
 //		graphicsSystem.beginFrameParallel();
-		myGraphic->update(static_cast<float>(timeSinceLast));
+		graphicSystem->update(static_cast<float>(timeSinceLast));
 //		graphicsSystem.finishFrameParallel();
 //		graphicsSystem.finishFrame();
 
@@ -53,8 +58,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	};
 
 
-	myGraphic->deinitialize();
-	delete myGraphic;
+	graphicSystem->deinitialize();
+	delete graphicSystem;
 	return 0;
 }
 

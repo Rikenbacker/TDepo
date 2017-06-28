@@ -1,6 +1,8 @@
 #pragma once
 
 #include "OgrePlatform.h"
+#include <functional>
+#include <vector>
 
 union SDL_Event;
 struct SDL_MouseButtonEvent;
@@ -12,28 +14,25 @@ struct SDL_JoyButtonEvent;
 struct SDL_JoyAxisEvent;
 struct SDL_JoyHatEvent;
 
-class MouseListener
-{
-public:
-    //Receives SDL_MOUSEMOTION and SDL_MOUSEWHEEL events
-    virtual void mouseMoved( const SDL_Event &arg ) {}
-    virtual void mousePressed( const SDL_MouseButtonEvent &arg, Ogre::uint8 id ) {}
-    virtual void mouseReleased( const SDL_MouseButtonEvent &arg, Ogre::uint8 id ) {}
-};
+class LSDLEvent;
 
-class KeyboardListener
-{
-public:
-    virtual void textInput( const SDL_TextInputEvent& arg ) {}
-    virtual void keyPressed( const SDL_KeyboardEvent &arg ) {}
-    virtual void keyReleased (const SDL_KeyboardEvent &arg ) {}
-};
+typedef std::function<void(LSDLEvent*)> SDLEventCallback;
 
-class JoystickListener
+enum class InputEventsType {MouseWheelScroll, KeyPressed};
+
+class LSDLEvent
 {
-public:
-    virtual void joyButtonPressed( const SDL_JoyButtonEvent &evt, int button ) {}
-    virtual void joyButtonReleased( const SDL_JoyButtonEvent &evt, int button ) {}
-    virtual void joyAxisMoved( const SDL_JoyAxisEvent &arg, int axis ) {}
-    virtual void joyPovMoved( const SDL_JoyHatEvent &arg, int index ) {}
+	public:
+		LSDLEvent() {};
+		~LSDLEvent() {};
+		void callNext();
+		void callFirst(const SDL_Event& _env);
+		void addListener(SDLEventCallback _listener);
+		const SDL_Event *getSDL_Event() { return env; };
+
+	private:
+		std::vector<SDLEventCallback> m_listeners;
+		std::vector<SDLEventCallback>::iterator m_it;
+		const SDL_Event *env = nullptr;
+		void call();
 };

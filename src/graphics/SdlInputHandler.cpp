@@ -6,15 +6,8 @@
 //#include "InputListeners.h"
 #include <SDL2\SDL_syswm.h>
 
-SdlInputHandler::SdlInputHandler( SDL_Window *sdlWindow,
-                                    MouseListener *mouseListener,
-                                    KeyboardListener *keyboardListener,
-                                    JoystickListener *joystickListener ) :
+SdlInputHandler::SdlInputHandler( SDL_Window *sdlWindow) :
     mSdlWindow( sdlWindow ),
-    //mLogicSystem( 0 ),
-    mMouseListener( mouseListener ),
-    mKeyboardListener( keyboardListener ),
-    mJoystickListener( joystickListener ),
     mWantRelative( false ),
     mWantMouseGrab( false ),
     mWantMouseVisible( true ),
@@ -31,6 +24,7 @@ SdlInputHandler::SdlInputHandler( SDL_Window *sdlWindow,
 //-----------------------------------------------------------------------------------
 SdlInputHandler::~SdlInputHandler()
 {
+
 }
 //-----------------------------------------------------------------------------------
 void SdlInputHandler::handleWindowEvent( const SDL_Event& evt )
@@ -65,8 +59,8 @@ void SdlInputHandler::_handleSdlEvents( const SDL_Event& evt )
             if( !handleWarpMotion(evt.motion) )
             {
                 // If in relative mode, don't trigger events unless window has focus
-                if( (!mWantRelative || mWindowHasFocus) && mMouseListener )
-                    mMouseListener->mouseMoved( evt );
+                if (!mWantRelative || mWindowHasFocus)
+					m_MouseMoveListeners.callFirst( evt );
 
                 // Try to keep the mouse inside the window
                 if (mWindowHasFocus)
@@ -78,94 +72,27 @@ void SdlInputHandler::_handleSdlEvents( const SDL_Event& evt )
             }
             break;
         case SDL_MOUSEWHEEL:
-            {
-                if( mMouseListener )
-                    mMouseListener->mouseMoved( evt );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
+            m_MouseWheelScrollListeners.callFirst(evt);
             break;
+
         case SDL_MOUSEBUTTONDOWN:
-            {
-                if( mMouseListener )
-                    mMouseListener->mousePressed( evt.button, evt.button.button );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_MOUSEBUTTONUP:
-            {
-                if( mMouseListener )
-                    mMouseListener->mouseReleased( evt.button, evt.button.button );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
+
         case SDL_KEYDOWN:
-            {
-                if( !evt.key.repeat && mKeyboardListener )
-                    mKeyboardListener->keyPressed( evt.key );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
+			m_KeyPressedlListeners.callFirst(evt);
             break;
+
         case SDL_KEYUP:
-            {
-                if( !evt.key.repeat && mKeyboardListener )
-                    mKeyboardListener->keyReleased( evt.key );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_TEXTINPUT:
-            {
-                if( mKeyboardListener )
-                    mKeyboardListener->textInput( evt.text );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_JOYAXISMOTION:
-            {
-                if( mJoystickListener )
-                    mJoystickListener->joyAxisMoved( evt.jaxis, evt.jaxis.axis );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_JOYBUTTONDOWN:
-            {
-                if( mJoystickListener )
-                    mJoystickListener->joyButtonPressed( evt.jbutton, evt.jbutton.button );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_JOYBUTTONUP:
-            {
-                if( mJoystickListener )
-                    mJoystickListener->joyButtonReleased( evt.jbutton, evt.jbutton.button );
-				/*
-                if( mLogicSystem )
-                    mGraphicsSystem->queueSendMessage( mLogicSystem, Mq::SDL_EVENT, evt );
-					*/
-            }
             break;
         case SDL_JOYDEVICEADDED:
             //SDL_JoystickOpen(evt.jdevice.which);
@@ -200,6 +127,23 @@ void SdlInputHandler::setMouseVisible( bool visible )
     mWantMouseVisible = visible;
     updateMouseSettings();
 }
+
+void SdlInputHandler::addListener(InputEventsType type, SDLEventCallback funct)
+{
+	switch (type)
+	{
+		case InputEventsType::MouseWheelScroll:
+			m_MouseWheelScrollListeners.addListener(funct);
+			break;
+
+		case InputEventsType::KeyPressed:
+			m_KeyPressedlListeners.addListener(funct);
+			break;
+		default:
+			break;
+	}
+}
+
 //-----------------------------------------------------------------------------------
 void SdlInputHandler::updateMouseSettings(void)
 {

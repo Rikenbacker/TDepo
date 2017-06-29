@@ -76,6 +76,11 @@ void InputSystem::addListener(InputEventsType type, SDLEventCallback funct)
 {
 	m_sdlInputHandler->addListener(type, funct);
 }
+void InputSystem::addListener(InputEventsType type, MouseMoveEventCallback funct)
+{
+	m_sdlInputHandler->addListener(type, funct);
+}
+
 void InputSystem::removeListener(/*event, listener*/)
 {
 

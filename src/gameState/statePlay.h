@@ -16,6 +16,7 @@ class statePlay : public gameState
 		void OnMouseWheelScroll(LSDLEvent *evt);
 		void OnMouseClick(LSDLEvent *evt);
 		void OnKeyPressed(LSDLEvent *evt);
+		void OnMouseMove(TDC::Vector2D<unsigned int>*, TDC::Vector2D<unsigned int>*, TDC::MouseButtons *);
 
 	private:
 		void setState(GameCondition cond);

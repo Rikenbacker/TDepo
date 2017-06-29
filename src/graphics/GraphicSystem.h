@@ -20,7 +20,7 @@ class GraphicSystem
 		void setResourcePath(std::string);
 
 		Ogre::RenderWindow* getRenderWindow(void) const { return m_renderWindow; }
-		void GraphicSystem::update(float);
+		void GraphicSystem::update();
 
 		Ogre::SceneManager *getSceneManager() const { return m_sceneManager; }
 		SDL_Window *getSdlWindow() const { return m_sdlWindow; }

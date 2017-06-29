@@ -4,6 +4,8 @@
 
 #include "..\graphics\GraphicSystem.h"
 #include "..\graphics\InputSystem.h"
+#include "..\graphics\WorldCamera.h"
+#include "..\graphics\WorldTimer.h"
 
 class gameState
 {
@@ -19,5 +21,6 @@ class gameState
 		GraphicSystem *m_graphicSystem = nullptr;
 		InputSystem *m_inputSystem = nullptr;
 		GameCondition m_state = GameCondition::Loading;
+		WorldCamera *m_camera = nullptr;
+		WorldTimer *m_timer = nullptr;
 };
-

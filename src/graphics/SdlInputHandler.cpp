@@ -6,6 +6,9 @@
 //#include "InputListeners.h"
 #include <SDL2\SDL_syswm.h>
 
+#include "..\common\Vector2D.h"
+#include "..\common\MouseButtons.h"
+
 SdlInputHandler::SdlInputHandler( SDL_Window *sdlWindow) :
     mSdlWindow( sdlWindow ),
     mWantRelative( false ),
@@ -59,8 +62,18 @@ void SdlInputHandler::_handleSdlEvents( const SDL_Event& evt )
             if( !handleWarpMotion(evt.motion) )
             {
                 // If in relative mode, don't trigger events unless window has focus
-                if (!mWantRelative || mWindowHasFocus)
-					m_MouseMoveListeners.callFirst( evt );
+				if (!mWantRelative || mWindowHasFocus)
+				{
+					TDC::Vector2D<unsigned int> *position = new TDC::Vector2D<unsigned int>(evt.motion.x, evt.motion.y);
+					TDC::Vector2D<unsigned int> *rel = new TDC::Vector2D<unsigned int>(evt.motion.xrel, evt.motion.yrel);
+					TDC::MouseButtons *btns = new TDC::MouseButtons(evt.motion.state);
+
+					m_MouseMoveListeners.callFirst(position, rel, btns);
+
+					delete btns;
+					delete position;
+					delete rel;
+				};
 
                 // Try to keep the mouse inside the window
                 if (mWindowHasFocus)
@@ -139,9 +152,23 @@ void SdlInputHandler::addListener(InputEventsType type, SDLEventCallback funct)
 		case InputEventsType::KeyPressed:
 			m_KeyPressedlListeners.addListener(funct);
 			break;
+
 		default:
 			break;
 	}
+}
+
+void SdlInputHandler::addListener(InputEventsType type, MouseMoveEventCallback funct)
+{
+	switch (type)
+	{
+		case InputEventsType::MouseMove:
+			m_MouseMoveListeners.addListener(funct);
+			break;
+
+		default:
+			break;
+	};
 }
 
 //-----------------------------------------------------------------------------------

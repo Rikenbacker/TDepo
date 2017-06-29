@@ -21,8 +21,19 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 
 	m_graphicSystem->getSceneManager()->setAmbientLight(Ogre::ColourValue::White, Ogre::ColourValue::White, Ogre::Vector3::UNIT_Y);
 
-	m_inputSystem->addListener(InputEventsType::KeyPressed, std::bind(&statePlay::OnKeyPressed, this, std::placeholders::_1));
-	m_inputSystem->addListener(InputEventsType::MouseWheelScroll, std::bind(&statePlay::OnMouseWheelScroll, this, std::placeholders::_1));
+	Ogre::ManualObject * manualObject = m_graphicSystem->getSceneManager()->createManualObject();
+
+
+	manualObject->begin("Ogre/Skin", Ogre::OT_LINE_LIST);
+	manualObject->position(0, 0, 0);
+	manualObject->position(100, 0, 100);
+	manualObject->line(0, 1);
+	manualObject->end();
+	sceneNode->attachObject(manualObject);
+
+	m_inputSystem->addListener(InputEventsType::KeyPressed, SDL_EVENT_CALLBACK(statePlay::OnKeyPressed));
+	m_inputSystem->addListener(InputEventsType::MouseMove, MOUSE_MOVE_CALLBACK(statePlay::OnMouseMove));
+	m_inputSystem->addListener(InputEventsType::MouseWheelScroll, SDL_EVENT_CALLBACK(statePlay::OnMouseWheelScroll));
 
 	setState(GameCondition::Running);
 }
@@ -33,6 +44,8 @@ statePlay::~statePlay()
 
 void statePlay::tick()
 {
+	m_timer->tick();
+
 	if (m_inputSystem->isQuit())
 		setState(GameCondition::Exit);
 }
@@ -45,10 +58,7 @@ GameCondition statePlay::getState()
 void statePlay::sleep()
 {
 	if (!m_graphicSystem->getRenderWindow()->isVisible())
-	{
-		//Don't burn CPU cycles unnecessary when we're minimized.
-		Ogre::Threads::Sleep(500);
-	}
+		Ogre::Threads::Sleep(10);
 }
 
 void statePlay::setState(GameCondition cond)
@@ -68,6 +78,12 @@ void statePlay::OnMouseClick(LSDLEvent * evt)
 	setState(GameCondition::Exit);
 
 	evt->callNext();
+}
+
+void statePlay::OnMouseMove(TDC::Vector2D<unsigned int> *position, TDC::Vector2D<unsigned int> *relation, TDC::MouseButtons *btns)
+{
+	if (btns->ButtonRight)
+		m_camera->rotateCamera(relation->x, relation->y, m_timer->getLastTicks());
 }
 
 void statePlay::OnKeyPressed(LSDLEvent * evt)

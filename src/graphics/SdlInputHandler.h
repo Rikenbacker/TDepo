@@ -67,11 +67,12 @@ public:
 
 	public:
 		void addListener(InputEventsType type, SDLEventCallback funct);
+		void addListener(InputEventsType type, MouseMoveEventCallback funct);
 
 	private:
 		LSDLEvent m_MouseWheelScrollListeners;
 		LSDLEvent m_KeyPressedlListeners;
-		LSDLEvent m_MouseMoveListeners;
+		MouseMoveEvent m_MouseMoveListeners;
 
 
 };

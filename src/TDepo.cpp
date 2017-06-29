@@ -30,11 +30,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	Ogre::RenderWindow *renderWindow = graphicSystem->getRenderWindow();
 	InputSystem *inputSystem = new InputSystem(graphicSystem);
 
-	Ogre::Timer timer;
-	unsigned long startTime = timer.getMicroseconds();
-
-	double timeSinceLast = 1.0 / 60.0;
-
 	gameState *game = new statePlay(graphicSystem, inputSystem);
 
 	while (game->getState() != GameCondition::Exit)
@@ -42,19 +37,14 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 		inputSystem->update();
 
 		game->tick();
-		game->tick();
 
 //		graphicsSystem.beginFrameParallel();
-		graphicSystem->update(static_cast<float>(timeSinceLast));
+
+		graphicSystem->update();
 //		graphicsSystem.finishFrameParallel();
 //		graphicsSystem.finishFrame();
 
-		game->getState();
-
-		unsigned long endTime = timer.getMicroseconds();
-		timeSinceLast = (endTime - startTime) / 1000000.0;
-		timeSinceLast = std::min(1.0, timeSinceLast); //Prevent from going haywire.
-		startTime = endTime;
+		game->sleep();
 	};
 
 

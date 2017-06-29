@@ -277,7 +277,7 @@ void GraphicSystem::deinitialize(void)
 	SDL_Quit();
 }
 
-void GraphicSystem::update(float timeSinceLast)
+void GraphicSystem::update()
 {
 	Ogre::WindowEventUtilities::messagePump();
 

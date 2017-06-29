@@ -15,6 +15,7 @@ class InputSystem
 		void removeListener(/*event, listener*/);
 
 		void addListener(InputEventsType type, SDLEventCallback funct);
+		void addListener(InputEventsType type, MouseMoveEventCallback funct);
 
 	private:
 		SdlInputHandler *m_sdlInputHandler = nullptr;

@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\common\MouseButtons.h" />
     <ClInclude Include="..\src\common\Vector2D.h" />
+    <ClInclude Include="..\src\common\Vector3D.h" />
     <ClInclude Include="..\src\gameState\gameState.h" />
     <ClInclude Include="..\src\gameState\gameStateDefines.h" />
     <ClInclude Include="..\src\gameState\statePlay.h" />

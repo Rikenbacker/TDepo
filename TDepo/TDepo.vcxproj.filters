@@ -83,6 +83,9 @@
     <ClInclude Include="..\src\common\MouseButtons.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\common\Vector3D.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TDepo.rc">

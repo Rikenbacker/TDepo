@@ -37,7 +37,22 @@ void WorldCamera::rotateCamera(const int deltaX, const int deltaY, const unsigne
 	};
 }
 
-void WorldCamera::rotateCameraFree(const int deltaX, const int deltaY, const unsigned long &ticks)
+void WorldCamera::moveCamera(const TDC::Vector3DFloat delta, const unsigned long ticks)
+{
+	switch (m_state)
+	{
+	case CameraState::Follow:
+		moveCameraFollow(delta, ticks);
+		break;
+	case CameraState::Free:
+		moveCameraFree(delta, ticks);
+		break;
+	default:
+		break;
+	};
+}
+
+void WorldCamera::rotateCameraFree(const int &deltaX, const int &deltaY, const unsigned long &ticks)
 {
 	if (deltaX != 0)
 	{
@@ -52,7 +67,15 @@ void WorldCamera::rotateCameraFree(const int deltaX, const int deltaY, const uns
 	};
 }
 
-void WorldCamera::rotateCameraFollow(const int deltaX, const int deltaY, const unsigned long &ticks)
+void WorldCamera::rotateCameraFollow(const int &deltaX, const int &deltaY, const unsigned long &ticks)
 {
 
+}
+
+void WorldCamera::moveCameraFree(const TDC::Vector3DFloat &delta, const unsigned long &ticks)
+{
+}
+
+void WorldCamera::moveCameraFollow(const TDC::Vector3DFloat &delta, const unsigned long &ticks)
+{
 }

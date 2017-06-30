@@ -91,23 +91,29 @@ void statePlay::OnKeyPressed(LSDLEvent * evt)
 	SDL_KeyboardEvent key = evt->getSDL_Event()->key;
 	switch (key.keysym.scancode)
 	{
-		case SDL_SCANCODE_D: 
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(1.0f, 0.0f, 0.0f));
-			break;
 		case SDL_SCANCODE_A:
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
+			m_camera->moveCamera(TDC::Vector3DFloat(-1.0f, 0.0f, 0.0f), m_timer->getLastTicks());
+//			m_graphicSystem->getCamera()->move(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
+			break;
+		case SDL_SCANCODE_D: 
+			m_camera->moveCamera(TDC::Vector3DFloat(1.0f, 0.0f, 0.0f), m_timer->getLastTicks());
+			//m_graphicSystem->getCamera()->move(Ogre::Vector3(1.0f, 0.0f, 0.0f));
 			break;
 		case SDL_SCANCODE_S:
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 0.0f, 1.0f));
+			m_camera->moveCamera(TDC::Vector3DFloat(0.0f, 0.0f, 1.0f), m_timer->getLastTicks());
+			//m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 0.0f, 1.0f));
 			break;
 		case SDL_SCANCODE_W:
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 0.0f, -1.0f));
+			m_camera->moveCamera(TDC::Vector3DFloat(0.0f, 0.0f, -1.0f), m_timer->getLastTicks());
+			//m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 0.0f, -1.0f));
 			break;
 		case SDL_SCANCODE_R:
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 1.0f, 0.0f));
+			m_camera->moveCamera(TDC::Vector3DFloat(0.0f, 1.0f, 0.0f), m_timer->getLastTicks());
+			//m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, 1.0f, 0.0f));
 			break;
 		case SDL_SCANCODE_F:
-			m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, -1.0f, 0.0f));
+			m_camera->moveCamera(TDC::Vector3DFloat(0.0f, -1.0f, 0.0f), m_timer->getLastTicks());
+			//m_graphicSystem->getCamera()->move(Ogre::Vector3(0.0f, -1.0f, 0.0f));
 			break;
 	}
 }

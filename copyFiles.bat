@@ -2,10 +2,6 @@
 rem Копирую dll
 mkdir "%2bin"
 rem del "%2bin\*" /Q
-xcopy /D /Y "%1..\ogreBuild\sdk\bin\%3\*.dll" "%2bin\"
-if "%3" == "Debug" (
-xcopy /D /Y "%1..\ogreBuild\sdk\bin\%3\*.pdb" "%2bin\"
-)
 
 rem Копирую и заменяю в завимимости от типа сборки настройки
 xcopy /D /E /Y /I %1config\* %2config

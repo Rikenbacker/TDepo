@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2\SDL.h>
+//#include <SDL2\SDL.h>
 
 namespace TDC
 {
@@ -13,6 +13,6 @@ namespace TDC
 			bool ButtonX1;
 			bool ButtonX2;
 
-			MouseButtons(Uint32 btn) { ButtonLeft = btn & SDL_BUTTON_LMASK; ButtonMiddle = btn & SDL_BUTTON_MMASK; ButtonRight = btn & SDL_BUTTON_RMASK; ButtonX1 = btn & SDL_BUTTON_X1MASK; ButtonX2 = btn & SDL_BUTTON_X2MASK; }
+//			MouseButtons(Uint32 btn) { ButtonLeft = btn & SDL_BUTTON_LMASK; ButtonMiddle = btn & SDL_BUTTON_MMASK; ButtonRight = btn & SDL_BUTTON_RMASK; ButtonX1 = btn & SDL_BUTTON_X1MASK; ButtonX2 = btn & SDL_BUTTON_X2MASK; }
 	};
 }

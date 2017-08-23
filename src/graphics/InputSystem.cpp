@@ -2,20 +2,24 @@
 
 InputSystem::InputSystem(GraphicSystem *graphicSystem)
 {
+	/*
 	m_graphicSystem = graphicSystem;
 	m_sdlWindow = m_graphicSystem->getSdlWindow();
 
 	m_sdlInputHandler = new SdlInputHandler(m_sdlWindow);
+	*/
 }
 
 InputSystem::~InputSystem()
 {
+	/*
 	if (m_sdlInputHandler)
 		delete m_sdlInputHandler;
+		*/
 }
 
 void InputSystem::update()
-{
+{/*
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
@@ -37,13 +41,12 @@ void InputSystem::update()
 	}
 
 	//SDL_SetWindowPosition( mSdlWindow, 0, 0 );
-	/*SDL_Rect rect;
-	SDL_GetDisplayBounds( 0, &rect );
-	SDL_GetDisplayBounds( 0, &rect );*/
+	*/
 }
-
+/*
 void InputSystem::handleWindowEvent(const SDL_Event& evt)
 {
+	
 	switch (evt.window.event)
 	{
 		case SDL_WINDOWEVENT_MAXIMIZED:
@@ -56,20 +59,21 @@ void InputSystem::handleWindowEvent(const SDL_Event& evt)
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 			int w, h;
 			SDL_GetWindowSize(m_sdlWindow, &w, &h);
-			m_graphicSystem->getRenderWindow()->windowMovedOrResized();
+//			m_graphicSystem->getRenderWindow()->windowMovedOrResized();
 			break;
 		case SDL_WINDOWEVENT_RESIZED:
-			m_graphicSystem->getRenderWindow()->windowMovedOrResized();
+//			m_graphicSystem->getRenderWindow()->windowMovedOrResized();
 			break;
 		case SDL_WINDOWEVENT_CLOSE:
 			break;
 		case SDL_WINDOWEVENT_SHOWN:
-			m_graphicSystem->getRenderWindow()->setVisible(true);
+//			m_graphicSystem->getRenderWindow()->setVisible(true);
 			break;
 		case SDL_WINDOWEVENT_HIDDEN:
-			m_graphicSystem->getRenderWindow()->setVisible(false);
+//			m_graphicSystem->getRenderWindow()->setVisible(false);
 			break;
 	}
+	
 }
 
 void InputSystem::addListener(InputEventsType type, SDLEventCallback funct)
@@ -81,7 +85,7 @@ void InputSystem::addListener(InputEventsType type, MouseMoveEventCallback funct
 	m_sdlInputHandler->addListener(type, funct);
 }
 
-void InputSystem::removeListener(/*event, listener*/)
+void InputSystem::removeListener(event, listener)
 {
 
-}
+}*/

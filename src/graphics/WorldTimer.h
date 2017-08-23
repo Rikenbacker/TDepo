@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Ogre.h"
-
 class WorldTimer
 {
 	public:
@@ -17,7 +15,7 @@ class WorldTimer
 		void setTimeSpeedRate(float newRate);
 
 	private:
-		Ogre::Timer m_timer;
+//		Ogre::Timer m_timer;
 		unsigned long m_startTime;
 		unsigned long m_lastTicks = 0;
 		float m_lastSecundes = 0;

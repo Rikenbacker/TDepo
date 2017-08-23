@@ -4,12 +4,12 @@
 
 WorldTimer::WorldTimer()
 {
-	m_startTime = m_timer.getMicroseconds();
+//	m_startTime = m_timer.getMicroseconds();
 }
 
 WorldTimer::WorldTimer(float newRate)
 {
-	m_startTime = m_timer.getMicroseconds();
+//	m_startTime = m_timer.getMicroseconds();
 	m_timeSpeedRate = newRate;
 }
 
@@ -19,14 +19,15 @@ WorldTimer::~WorldTimer()
 
 unsigned long WorldTimer::tick()
 {
-	unsigned long endTime = m_timer.getMicroseconds();
-	if (endTime < m_startTime)
-		endTime = m_startTime;
-	m_lastTicks = double(endTime - m_startTime);
-	m_lastSecundes = (float)m_lastTicks / 1000000.0 * m_timeSpeedRate;
-	m_startTime = endTime;
+	/*
+unsigned long endTime = m_timer.getMicroseconds();
+if (endTime < m_startTime)
+endTime = m_startTime;
+m_lastTicks = double(endTime - m_startTime);
+m_lastSecundes = (float)m_lastTicks / 1000000.0 * m_timeSpeedRate;
+m_startTime = endTime;
 
-	return m_lastTicks;
+return m_lastTicks;*/return 0;
 }
 
 unsigned long WorldTimer::getLastTicks()

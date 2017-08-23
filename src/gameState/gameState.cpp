@@ -4,10 +4,10 @@ gameState::gameState(GraphicSystem *gs, InputSystem *is)
 {
 	m_graphicSystem = gs;
 	m_inputSystem = is;
-
+/*
 	if (m_graphicSystem)
 		m_camera = new WorldCamera(m_graphicSystem->getCamera());
-
+*/
 	m_timer = new WorldTimer();
 }
 

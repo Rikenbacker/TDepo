@@ -2,9 +2,9 @@
 
 
 
-WorldCamera::WorldCamera(Ogre::Camera *camera)
+WorldCamera::WorldCamera(/*Ogre::Camera *camera*/)
 {
-	m_camera = camera;
+//	m_camera = camera;
 }
 
 
@@ -57,13 +57,13 @@ void WorldCamera::rotateCameraFree(const int &deltaX, const int &deltaY, const u
 	if (deltaX != 0)
 	{
 		float tsx = (float)deltaX / (float)ticks;
-		m_camera->rotate(Ogre::Vector3(0, 1, 0), (Ogre::Radian)tsx);
+//		m_camera->rotate(Ogre::Vector3(0, 1, 0), (Ogre::Radian)tsx);
 	};
 
 	if (deltaY != 0)
 	{
 		float tsy = (float)-deltaY / (float)ticks;
-		m_camera->rotate(Ogre::Vector3(1, 0, 0), (Ogre::Radian)tsy);
+//		m_camera->rotate(Ogre::Vector3(1, 0, 0), (Ogre::Radian)tsy);
 	};
 }
 
@@ -74,6 +74,7 @@ void WorldCamera::rotateCameraFollow(const int &deltaX, const int &deltaY, const
 
 void WorldCamera::moveCameraFree(const TDC::Vector3DFloat &delta, const unsigned long &ticks)
 {
+//	m_camera->moveRelative(delta.toOgreVector());
 }
 
 void WorldCamera::moveCameraFollow(const TDC::Vector3DFloat &delta, const unsigned long &ticks)

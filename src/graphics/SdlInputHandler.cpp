@@ -4,13 +4,13 @@
 
 #include "SdlInputHandler.h"
 //#include "InputListeners.h"
-#include <SDL2\SDL_syswm.h>
+//#include <SDL2\SDL_syswm.h>
 
 #include "..\common\Vector2D.h"
 #include "..\common\MouseButtons.h"
 
-SdlInputHandler::SdlInputHandler( SDL_Window *sdlWindow) :
-    mSdlWindow( sdlWindow ),
+SdlInputHandler::SdlInputHandler(/* SDL_Window *sdlWindow*/) :
+//    mSdlWindow( sdlWindow ),
     mWantRelative( false ),
     mWantMouseGrab( false ),
     mWantMouseVisible( true ),
@@ -32,6 +32,7 @@ SdlInputHandler::~SdlInputHandler()
 //-----------------------------------------------------------------------------------
 void SdlInputHandler::handleWindowEvent( const SDL_Event& evt )
 {
+	/*
     switch( evt.window.event )
     {
         case SDL_WINDOWEVENT_ENTER:
@@ -50,10 +51,10 @@ void SdlInputHandler::handleWindowEvent( const SDL_Event& evt )
             mWindowHasFocus = false;
             updateMouseSettings();
             break;
-    }
+    }*/
 }
 //-----------------------------------------------------------------------------------
-void SdlInputHandler::_handleSdlEvents( const SDL_Event& evt )
+void SdlInputHandler::_handleSdlEvents(/* const SDL_Event& evt */)
 {
     switch( evt.type )
     {

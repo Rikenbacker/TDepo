@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SdlInputHandler.h"
 #include "GraphicSystem.h"
 
 class InputSystem
@@ -12,17 +11,17 @@ class InputSystem
 		void update();
 		bool isQuit() { return m_quit; }
 
-		void removeListener(/*event, listener*/);
+//		void removeListener(event, listener);
 
-		void addListener(InputEventsType type, SDLEventCallback funct);
-		void addListener(InputEventsType type, MouseMoveEventCallback funct);
+//		void addListener(InputEventsType type, SDLEventCallback funct);
+//		void addListener(InputEventsType type, MouseMoveEventCallback funct);
 
 	private:
-		SdlInputHandler *m_sdlInputHandler = nullptr;
+//		SdlInputHandler *m_sdlInputHandler = nullptr;
 		GraphicSystem *m_graphicSystem = nullptr;
-		SDL_Window *m_sdlWindow = nullptr;
+//		SDL_Window *m_sdlWindow = nullptr;
 		bool m_quit = false;
 
-		void handleWindowEvent(const SDL_Event& evt);
+//		void handleWindowEvent(const SDL_Event& evt);
 };
 

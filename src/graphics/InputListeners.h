@@ -1,6 +1,5 @@
 #pragma once
 
-#include "OgrePlatform.h"
 #include <functional>
 #include <vector>
 

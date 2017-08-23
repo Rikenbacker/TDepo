@@ -1,14 +1,11 @@
 #include "GraphicSystem.h"
 
-#include "Overlay\OgreOverlaySystem.h"
-#include "Compositor\OgreCompositorManager2.h"
-#include "Hlms\Unlit\OgreHlmsUnlit.h"
-#include "Hlms\Pbs\OgreHlmsPbs.h"
 
-#include <SDL2\SDL.h>
-#include <SDL2\SDL_syswm.h>
+#include "EDriverTypes.h"
+#include "irrTypes.h"
+#include "IrrlichtDevice.h"
 
-GraphicSystem::GraphicSystem(Ogre::ColourValue backgroundColour) :
+GraphicSystem::GraphicSystem(irr::video::SColor backgroundColour) :
 	m_backgroundColour(backgroundColour)
 {
 }
@@ -34,6 +31,15 @@ void GraphicSystem::setResourcePath(std::string pluginPath)
 
 bool GraphicSystem::initialize(const std::string &windowTitle)
 {
+	m_device = irr::createDevice(irr::video::E_DRIVER_TYPE::EDT_DIRECT3D9, irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, NULL/*&receiver*/);
+
+	if (m_device == nullptr)
+		return false; // could not create selected driver.
+
+	m_driver = m_device->getVideoDriver();
+	m_sceneManager = m_device->getSceneManager();
+
+	/*
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
 	{
 		OGRE_EXCEPT( Ogre::Exception::ERR_INTERNAL_ERROR, "Cannot initialize SDL2!", "GraphicsSystem::initialize" );
@@ -132,24 +138,23 @@ bool GraphicSystem::initialize(const std::string &windowTitle)
 	createCamera();
 	m_workspace = setupCompositor();
 
-/*
-	BaseSystem::initialize();
-	*/
-
+*/
 	return true;
 }
 
 void GraphicSystem::loadResources()
 {
+/*
 	registerHlms();
 
 	// Initialise, parse scripts etc
-	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups(false);
+*/
 }
 
 void GraphicSystem::registerHlms()
 {
-	Ogre::ConfigFile cf;
+/*	Ogre::ConfigFile cf;
 	cf.load(m_resourcePath + "data.cfg");
 
 	Ogre::String dataFolder = cf.getSetting("DoNotUseAsResource", "Hlms", "");
@@ -160,12 +165,6 @@ void GraphicSystem::registerHlms()
 		dataFolder += "/";
 
 	Ogre::RenderSystem *renderSystem = m_root->getRenderSystem();
-/*	Ogre::Archive *archiveUnlit = Ogre::ArchiveManager::getSingletonPtr()->load(dataFolder, "FileSystem", true);
-	Ogre::ArchiveVec library;
-	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit, &library);
-	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsUnlit);
-	library.pop_back();
-	*/
 
 	Ogre::String shaderSyntax = "GLSL";
 	if (renderSystem->getName() == "Direct3D11 Rendering Subsystem")
@@ -208,16 +207,12 @@ void GraphicSystem::registerHlms()
 			hlmsPbs->setTextureBufferDefaultSize(512 * 1024);
 			hlmsUnlit->setTextureBufferDefaultSize(512 * 1024);
 		}
-	}
-}
-
-void GraphicSystem::addResourceLocation(const Ogre::String &archName, const Ogre::String &typeName, const Ogre::String &secName)
-{
-	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+	}*/
 }
 
 void GraphicSystem::setupResources(void)
 {
+	/*
 	// Load resource paths from config file
 	Ogre::ConfigFile cf;
 	cf.load(m_resourcePath + "data.cfg");
@@ -251,10 +246,21 @@ void GraphicSystem::setupResources(void)
 		dataFolder += "/";
 
 	addResourceLocation(dataFolder, "FileSystem", "General");
+	*/
 }
 
 void GraphicSystem::deinitialize(void)
 {
+	if (!m_device)
+		return;
+
+	m_device->drop();
+
+	m_driver = nullptr;
+	m_sceneManager = nullptr;
+	m_device = nullptr;
+
+	/*
 	m_renderWindow = nullptr;
 	
 	if (m_sceneManager)
@@ -275,15 +281,26 @@ void GraphicSystem::deinitialize(void)
 	}
 
 	SDL_Quit();
+	*/
 }
 
 void GraphicSystem::update()
 {
+	if (!m_driver || !m_sceneManager || !m_device)
+		return;
+
+	m_driver->beginScene(true, true, m_backgroundColour);
+
+	m_sceneManager->drawAll(); // draw the 3d scene
+	m_device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
+
+	m_driver->endScene();
+	/*
 	Ogre::WindowEventUtilities::messagePump();
 
 	if (m_renderWindow->isVisible())
 		m_root->renderOneFrame();
-
+		*/
 	//SDL_SetWindowPosition( mSdlWindow, 0, 0 );
 	/*SDL_Rect rect;
 	SDL_GetDisplayBounds( 0, &rect );
@@ -292,6 +309,7 @@ void GraphicSystem::update()
 
 void GraphicSystem::chooseSceneManager()
 {
+	/*
 	Ogre::InstancingThreadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
 #if OGRE_DEBUG_MODE
 	//Debugging multithreaded code is a PITA, disable it.
@@ -311,10 +329,12 @@ void GraphicSystem::chooseSceneManager()
 	//Set sane defaults for proper shadow mapping
 	m_sceneManager->setShadowDirectionalLightExtrusionDistance(500.0f);
 	m_sceneManager->setShadowFarDistance(500.0f);
+	*/
 }
 
 void GraphicSystem::createCamera(void)
 {
+	/*
 	m_camera = m_sceneManager->createCamera("Main Camera");
 
 	m_camera->setPosition(Ogre::Vector3(0, 150, 150));
@@ -323,17 +343,5 @@ void GraphicSystem::createCamera(void)
 	m_camera->setNearClipDistance(0.2f);
 	m_camera->setFarClipDistance(1000.0f);
 	m_camera->setAutoAspectRatio(true);
-}
-
-Ogre::CompositorWorkspace* GraphicSystem::setupCompositor()
-{
-	Ogre::CompositorManager2 *compositorManager = m_root->getCompositorManager2();
-
-	const Ogre::String workspaceName("MyWorkspace");
-	if (!compositorManager->hasWorkspaceDefinition(workspaceName))
-	{
-		compositorManager->createBasicWorkspaceDef(workspaceName, m_backgroundColour, Ogre::IdString());
-	}
-
-	return compositorManager->addWorkspace(m_sceneManager, m_renderWindow, m_camera, workspaceName, true);
+	*/
 }

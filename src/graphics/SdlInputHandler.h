@@ -1,12 +1,11 @@
 #pragma once
 
 #include "InputListeners.h"
-#include "OgrePrerequisites.h"
-#include <SDL2\SDL.h>
+//#include <SDL2\SDL.h>
 
 class SdlInputHandler
 {
-    SDL_Window  *mSdlWindow;
+//    SDL_Window  *mSdlWindow;
 
     // User settings
     /// User setting. From the SDL docs: While the mouse is in relative mode, the
@@ -27,8 +26,8 @@ class SdlInputHandler
     bool        mMouseInWindow;
     bool        mWindowHasFocus;
 
-    Uint16      mWarpX;
-    Uint16      mWarpY;
+//    Uint16      mWarpX;
+//    Uint16      mWarpY;
     bool        mWarpCompensate;
 
     void updateMouseSettings(void);

@@ -6,8 +6,6 @@
 #include "gameState\gameState.h"
 #include "gameState\statePlay.h"
 
-#include "OgreLogManager.h"
-
 void setActiveDir();
 
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, INT nCmdShow)
@@ -27,7 +25,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 		return -1;
 	};
 
-	Ogre::RenderWindow *renderWindow = graphicSystem->getRenderWindow();
+//	Ogre::RenderWindow *renderWindow = graphicSystem->getRenderWindow();
 	InputSystem *inputSystem = new InputSystem(graphicSystem);
 
 	gameState *game = new statePlay(graphicSystem, inputSystem);

@@ -1,15 +1,14 @@
 #pragma once
 
-#include "Ogre.h"
-#include "Overlay\OgreOverlayPrerequisites.h"
+#include <irrlicht.h>
 
 #include <string>
-#include <SDL2\SDL.h>
+//#include <SDL2\SDL.h>
 
 class GraphicSystem
 {
 	public:
-		GraphicSystem(Ogre::ColourValue backgroundColour = Ogre::ColourValue(0.2f, 0.4f, 0.6f));
+		GraphicSystem(irr::video::SColor backgroundColour = irr::video::SColor(255, 0, 255, 0));
 		~GraphicSystem();
 
 		bool initialize(const std::string &windowTitle);
@@ -19,35 +18,36 @@ class GraphicSystem
 		void setLogPath(std::string);
 		void setResourcePath(std::string);
 
-		Ogre::RenderWindow* getRenderWindow(void) const { return m_renderWindow; }
+//		Ogre::RenderWindow* getRenderWindow(void) const { return m_renderWindow; }
 		void GraphicSystem::update();
 
-		Ogre::SceneManager *getSceneManager() const { return m_sceneManager; }
-		SDL_Window *getSdlWindow() const { return m_sdlWindow; }
-		Ogre::Camera *getCamera() const { return m_camera; }
+		irr::scene::ISceneManager *getSceneManager() const { return m_sceneManager; }
+//		SDL_Window *getSdlWindow() const { return m_sdlWindow; }
+//		Ogre::Camera *getCamera() const { return m_camera; }
 
 	private:
-		Ogre::Root *m_root = nullptr;
+//		Ogre::Root *m_root = nullptr;
 
 		std::string m_configPath = "";
 		std::string m_logPath = "";
 		std::string m_resourcePath = "";
 
-		SDL_Window *m_sdlWindow = nullptr;
-		Ogre::RenderWindow *m_renderWindow = nullptr;
-		Ogre::v1::OverlaySystem *m_overlaySystem = nullptr;
-		Ogre::SceneManager *m_sceneManager = nullptr;
-		Ogre::Camera *m_camera = nullptr;
-		Ogre::CompositorWorkspace *m_workspace = nullptr;
+//		SDL_Window *m_sdlWindow = nullptr;
+//		Ogre::RenderWindow *m_renderWindow = nullptr;
+//		Ogre::v1::OverlaySystem *m_overlaySystem = nullptr;
+		irr::scene::ISceneManager *m_sceneManager = nullptr;
+//		Ogre::Camera *m_camera = nullptr;
+//		Ogre::CompositorWorkspace *m_workspace = nullptr;
 
-		Ogre::ColourValue m_backgroundColour;
+		irr::IrrlichtDevice* m_device = nullptr;
+		irr::video::IVideoDriver* m_driver = nullptr;
+		irr::video::SColor m_backgroundColour;
 
 		void chooseSceneManager();
 		void createCamera();
 		void setupResources();
-		Ogre::CompositorWorkspace* setupCompositor();
+//		Ogre::CompositorWorkspace* setupCompositor();
 		void loadResources();
 		void registerHlms();
-		static void addResourceLocation(const Ogre::String &archName, const Ogre::String &typeName, const Ogre::String &secName);
 };
 

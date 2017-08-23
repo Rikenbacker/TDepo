@@ -2,6 +2,7 @@
 
 #include "gameState.h"
 #include "gameStateDefines.h"
+#include "..\common\Vector2D.h"
 
 class statePlay : public gameState
 {
@@ -13,10 +14,10 @@ class statePlay : public gameState
 		GameCondition getState() override;
 		void sleep() override;
 
-		void OnMouseWheelScroll(LSDLEvent *evt);
-		void OnMouseClick(LSDLEvent *evt);
-		void OnKeyPressed(LSDLEvent *evt);
-		void OnMouseMove(TDC::Vector2D<unsigned int>*, TDC::Vector2D<unsigned int>*, TDC::MouseButtons *);
+//		void OnMouseWheelScroll(LSDLEvent *evt);
+//		void OnMouseClick(LSDLEvent *evt);
+//		void OnKeyPressed(LSDLEvent *evt);
+//		void OnMouseMove(TDC::Vector2D<unsigned int>*, TDC::Vector2D<unsigned int>*, TDC::MouseButtons *);
 
 	private:
 		void setState(GameCondition cond);

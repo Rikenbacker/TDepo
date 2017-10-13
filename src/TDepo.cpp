@@ -19,13 +19,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	graphicSystem->setLogPath("logs\\");
 	graphicSystem->setResourcePath("data\\");
 	
-	if (!graphicSystem->initialize("Train Depo"))
+	if (!graphicSystem->initialize(L"Train Depo"))
 	{
 		graphicSystem->deinitialize();
 		return -1;
 	};
 
-//	Ogre::RenderWindow *renderWindow = graphicSystem->getRenderWindow();
 	InputSystem *inputSystem = new InputSystem(graphicSystem);
 
 	gameState *game = new statePlay(graphicSystem, inputSystem);

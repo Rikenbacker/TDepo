@@ -5,6 +5,7 @@
 #include "graphics\InputSystem.h"
 #include "gameState\gameState.h"
 #include "gameState\statePlay.h"
+#include "gameState\saveGame.h"
 
 void setActiveDir();
 
@@ -18,28 +19,24 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	graphicSystem->setConfigPath("config\\");
 	graphicSystem->setLogPath("logs\\");
 	graphicSystem->setResourcePath("data\\");
-	
-	if (!graphicSystem->initialize(L"Train Depo"))
+	InputSystem *inputSystem = new InputSystem();
+
+	if (!graphicSystem->initialize(L"Train Depo", inputSystem, false))
 	{
 		graphicSystem->deinitialize();
 		return -1;
 	};
 
-	InputSystem *inputSystem = new InputSystem(graphicSystem);
+	saveGame *gameLoader = new saveGame(graphicSystem, inputSystem);
+	gameState *game = gameLoader->load("Test001");
 
-	gameState *game = new statePlay(graphicSystem, inputSystem);
-
-	while (game->getState() != GameCondition::Exit)
+	while (game->getState() != GameCondition::Exit && graphicSystem->run())
 	{
 		inputSystem->update();
 
 		game->tick();
 
-//		graphicsSystem.beginFrameParallel();
-
 		graphicSystem->update();
-//		graphicsSystem.finishFrameParallel();
-//		graphicsSystem.finishFrame();
 
 		game->sleep();
 	};

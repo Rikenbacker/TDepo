@@ -3,6 +3,7 @@
 #include "gameState.h"
 #include "gameStateDefines.h"
 #include "..\common\Vector2D.h"
+#include "..\objects\BaseGameObject.h"
 
 class statePlay : public gameState
 {
@@ -21,5 +22,7 @@ class statePlay : public gameState
 
 	private:
 		void setState(GameCondition cond);
+
+		BaseGameObject *cube;
 };
 

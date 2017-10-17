@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<RailRoad version="0.0.1">
+    <Branch name="MainLine" id="1">
+        <Line InPosition="100.0,100.0,100.0"
+			InDirection="-1.0,0.0,-1.0"
+			OutPosition="200.0,100.0,200.0"
+			OutDirection="1.0,0.0,1.0"
+			Method="Tripple"/>
+        <Line InPosition="200.0,100.0,200.0"
+			InDirection="-1.0,0.0,-1.0"
+			OutPosition="150.0,100.0,200.0"
+			OutDirection="1.0,0.0,1.0"
+			Method="Tripple"/>
+    </Branch>
+    <Branch name="Ответвление" id="2">
+        <Line InPosition="100.0,100.0,100.0"
+			InDirection="-1.0,0.0,-1.0"
+			OutPosition="200.0,100.0,200.0"
+			OutDirection="1.0,0.0,1.0"
+			Method="Tripple"/>
+        <Line InPosition="200.0,100.0,200.0"
+			InDirection="-1.0,0.0,-1.0"
+			OutPosition="150.0,100.0,200.0"
+			OutDirection="1.0,0.0,1.0"
+			Method="Tripple"/>
+    </Branch>
+</RailRoad>

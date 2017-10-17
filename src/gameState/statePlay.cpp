@@ -1,10 +1,14 @@
 #include "statePlay.h"
 
 #include <functional>
+#include "..\objects\BaseGameObject.h"
 
 statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 	gameState(gs, is)
 {
+	m_camera = gs->getCamera();
+
+	cube = new BaseGameObject(gs);
 	/*
 	Ogre::Item *item = m_graphicSystem->getSceneManager()->createItem("ogrehead.mesh", Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, Ogre::SCENE_DYNAMIC);
 	Ogre::SceneNode *sceneNode = m_graphicSystem->getSceneManager()->getRootSceneNode(Ogre::SCENE_DYNAMIC)->createChildSceneNode(Ogre::SCENE_DYNAMIC);
@@ -113,10 +117,20 @@ statePlay::~statePlay()
 
 void statePlay::tick()
 {
-	m_timer->tick();
+//	m_timer->tick();
 
-	if (m_inputSystem->isQuit())
+	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_W))
+		cube->move(0, 0.1, 0);
+	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_S))
+		cube->move(0, -0.1, 0);
+	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_A))
+		cube->move(0.1, 0, 0);
+	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_D))
+		cube->move(-0.1, 0, 0);
+
+/*	if (m_inputSystem->isQuit())
 		setState(GameCondition::Exit);
+*/
 }
 
 GameCondition statePlay::getState()

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <irrlicht.h>
 #include "..\common\Vector3D.h"
 
 class WorldCamera
@@ -8,7 +9,7 @@ class WorldCamera
 		enum class CameraState { Free, Follow };
 
 	public:
-		WorldCamera(/*Ogre::Camera *camera*/);
+		WorldCamera(irr::scene::ICameraSceneNode* camera);
 		~WorldCamera();
 
 		CameraState getState(void);
@@ -18,7 +19,7 @@ class WorldCamera
 		void moveCamera(const TDC::Vector3DFloat delta, const unsigned long ticks);
 
 	private:
-//		Ogre::Camera *m_camera = nullptr;
+		irr::scene::ICameraSceneNode* m_camera = nullptr;
 		CameraState m_state = CameraState::Free;
 
 		void rotateCameraFree(const int &deltaX, const int &deltaY, const unsigned long &ticks);

@@ -1,21 +1,27 @@
 #include "InputSystem.h"
 
-InputSystem::InputSystem(GraphicSystem *graphicSystem)
+InputSystem::InputSystem()
 {
-	/*
-	m_graphicSystem = graphicSystem;
-	m_sdlWindow = m_graphicSystem->getSdlWindow();
-
-	m_sdlInputHandler = new SdlInputHandler(m_sdlWindow);
-	*/
+	for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
+		KeyIsDown[i] = false;
 }
 
 InputSystem::~InputSystem()
 {
-	/*
-	if (m_sdlInputHandler)
-		delete m_sdlInputHandler;
-		*/
+}
+
+bool InputSystem::OnEvent(const irr::SEvent& event)
+{
+	// Remember whether each key is down or up
+	if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+		KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+
+	return false;
+}
+
+bool InputSystem::IsKeyDown(irr::EKEY_CODE keyCode) const
+{
+	return KeyIsDown[keyCode];
 }
 
 void InputSystem::update()

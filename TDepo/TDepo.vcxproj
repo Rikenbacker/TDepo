@@ -75,8 +75,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Irrlicht\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Irrlicht\include\;$(SolutionDir)dependences\tinyxml\;$(IncludePath)</IncludePath>
     <ExecutablePath>$(OutDir)bin;$(ExecutablePath)</ExecutablePath>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
+    <CustomBuildAfterTargets>
+    </CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -108,7 +112,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;msimg32.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2main.lib;$(SolutionDir)..\ogredeps\build\install\lib\SDL2.lib;$(SolutionDir)$(Platform)\$(Configuration)\bin\Irrlicht.lib</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;msimg32.lib;$(SolutionDir)$(Platform)\$(Configuration)\bin\Irrlicht.lib;$(SolutionDir)$(Platform)\$(Configuration)\bin\tinyxml.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
@@ -121,9 +125,19 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)copyFiles.bat $(SolutionDir) $(TargetDir) $(Configuration)
+      <Command>
 </Command>
+      <Message>Копирование файлов</Message>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>call $(SolutionDir)copyFiles.bat $(SolutionDir) $(TargetDir) $(Configuration)</Command>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -171,27 +185,37 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\exceptions\FileSystemException.cpp" />
+    <ClCompile Include="..\src\exceptions\TDepoException.cpp" />
+    <ClCompile Include="..\src\exceptions\XMLException.cpp" />
     <ClCompile Include="..\src\gameState\gameState.cpp" />
+    <ClCompile Include="..\src\gameState\saveGame.cpp" />
     <ClCompile Include="..\src\gameState\statePlay.cpp" />
     <ClCompile Include="..\src\graphics\GraphicSystem.cpp" />
     <ClCompile Include="..\src\graphics\InputListeners.cpp" />
     <ClCompile Include="..\src\graphics\InputSystem.cpp" />
     <ClCompile Include="..\src\graphics\WorldCamera.cpp" />
     <ClCompile Include="..\src\graphics\WorldTimer.cpp" />
+    <ClCompile Include="..\src\objects\BaseGameObject.cpp" />
     <ClCompile Include="..\src\TDepo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\MouseButtons.h" />
     <ClInclude Include="..\src\common\Vector2D.h" />
     <ClInclude Include="..\src\common\Vector3D.h" />
+    <ClInclude Include="..\src\exceptions\FileSystemException.h" />
+    <ClInclude Include="..\src\exceptions\TDepoException.h" />
+    <ClInclude Include="..\src\exceptions\XMLException.h" />
     <ClInclude Include="..\src\gameState\gameState.h" />
     <ClInclude Include="..\src\gameState\gameStateDefines.h" />
+    <ClInclude Include="..\src\gameState\saveGame.h" />
     <ClInclude Include="..\src\gameState\statePlay.h" />
     <ClInclude Include="..\src\graphics\GraphicSystem.h" />
     <ClInclude Include="..\src\graphics\InputListeners.h" />
     <ClInclude Include="..\src\graphics\InputSystem.h" />
     <ClInclude Include="..\src\graphics\WorldCamera.h" />
     <ClInclude Include="..\src\graphics\WorldTimer.h" />
+    <ClInclude Include="..\src\objects\BaseGameObject.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

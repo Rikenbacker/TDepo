@@ -3,7 +3,8 @@
 #include <irrlicht.h>
 
 #include <string>
-//#include <SDL2\SDL.h>
+#include "InputSystem.h"
+#include "WorldCamera.h"
 
 class GraphicSystem
 {
@@ -11,16 +12,18 @@ class GraphicSystem
 		GraphicSystem(irr::video::SColor backgroundColour = irr::video::SColor(255, 0, 255, 0));
 		~GraphicSystem();
 
-		bool initialize(const std::wstring &windowTitle);
+		bool initialize(const std::wstring &windowTitle, InputSystem *inputSystem, bool fullScreen = false);
 		void deinitialize();
 
 		void setConfigPath(std::string);
 		void setLogPath(std::string);
 		void setResourcePath(std::string);
 
-		void GraphicSystem::update();
+		void update();
+		bool run();
 
 		irr::scene::ISceneManager *getSceneManager() const { return m_sceneManager; }
+		WorldCamera *getCamera() const { return m_worldCamera; }
 
 	private:
 
@@ -35,10 +38,13 @@ class GraphicSystem
 		irr::gui::IGUIEnvironment* m_guiEnv = nullptr;
 		irr::video::SColor m_backgroundColour;
 		irr::scene::ICameraSceneNode* m_camera = nullptr;
+		WorldCamera *m_worldCamera = nullptr;
 
 		void chooseSceneManager();
 		void createCamera();
 		void setupResources();
 		void loadResources();
+
+		int lastFPS = 0;
 };
 

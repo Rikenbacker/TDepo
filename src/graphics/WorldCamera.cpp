@@ -2,9 +2,9 @@
 
 
 
-WorldCamera::WorldCamera(/*Ogre::Camera *camera*/)
+WorldCamera::WorldCamera(irr::scene::ICameraSceneNode* camera)
 {
-//	m_camera = camera;
+	m_camera = camera;
 }
 
 

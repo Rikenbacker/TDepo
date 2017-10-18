@@ -14,12 +14,4 @@ namespace TDC
 			valType y;
 			valType z;
 	};
-
-	class Vector3DFloat : public Vector3D<float>
-	{
-		public:
-			Vector3DFloat() : Vector3D<float>(0.0, 0.0, 0.0) {};
-			Vector3DFloat(float _x, float _y, float _z) : Vector3D<float>(_x, _y, _z) {};
-			~Vector3DFloat() {};
-	};
 }

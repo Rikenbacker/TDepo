@@ -2,6 +2,7 @@
 #include "..\graphics\GraphicSystem.h"
 #include "..\graphics\InputSystem.h"
 #include "..\gameState\statePlay.h"
+#include "..\objects\SaveGameLinkers\ConnectorPairLinker.h"
 
 #include <string>
 #include <tinyxml.h>
@@ -26,8 +27,11 @@ class saveGame
 		InputSystem *m_inputSystem = nullptr;
 		statePlay *m_game = nullptr;
 
+		ConnectorPairLinker connectorPairLilker;
+
 		void checkVersion(TiXmlElement* pElem);
 		void addBranch(TiXmlElement* pElem, bool newBranch = true);
 		void addLine(TiXmlElement* pElem);
+		void addConnector(TiXmlElement* pElem);
 };
 

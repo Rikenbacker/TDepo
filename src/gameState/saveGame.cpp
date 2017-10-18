@@ -65,6 +65,20 @@ void saveGame::loadRails(std::string path)
 
 	checkVersion(pElem);
 
+	//Добавляю коннекторы
+	connectorPairLilker.clear();
+	TiXmlElement *pElemCon = pElem->FirstChildElement("Connectors");
+	if (pElemCon)
+	{
+		hDoc = TiXmlHandle(pElemCon);
+		pElemCon = hDoc.FirstChildElement("Connector").Element();
+		while (pElemCon)
+		{
+			addBranch(pElem);
+			pElemCon = pElemCon->NextSiblingElement();
+		};
+	};
+	
 	//Добавляю пути не объединённые в ветки
 	addBranch(pElem, false);
 
@@ -77,11 +91,9 @@ void saveGame::loadRails(std::string path)
 		pElem = pElem->NextSiblingElement();
 	};
 
+	connectorPairLilker.deleteUnused();
 
 	delete doc;
-
-
-
 }
 
 void saveGame::checkVersion(TiXmlElement* pElem)
@@ -130,4 +142,9 @@ void saveGame::addBranch(TiXmlElement* pElem, bool newBranch)
 void saveGame::addLine(TiXmlElement* pElem)
 {
 	m_game->getRailSystem()->addRailWay(nullptr);
+}
+
+void saveGame::addConnector(TiXmlElement* pElem)
+{
+
 }

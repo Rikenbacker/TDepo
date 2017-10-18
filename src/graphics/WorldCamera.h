@@ -1,7 +1,7 @@
 #pragma once
 
 #include <irrlicht.h>
-#include "..\common\Vector3D.h"
+#include "..\common\Vector3DFloat.h"
 
 class WorldCamera
 {

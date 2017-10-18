@@ -72,6 +72,15 @@
     <ClCompile Include="..\src\objects\Rails.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\objects\SaveGameLinkers\ConnectorPairLinker.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\objects\SaveGameLinkers\ConnectorPair.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\common\Vector3DFloat.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\GraphicSystem.h">
@@ -138,6 +147,15 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\src\objects\Rails.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\objects\SaveGameLinkers\ConnectorPairLinker.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\objects\SaveGameLinkers\ConnectorPair.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\Vector3DFloat.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

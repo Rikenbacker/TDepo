@@ -1,10 +1,8 @@
 #include "RailSystem.h"
 
-
 RailSystem::RailSystem()
 {
 }
-
 
 RailSystem::~RailSystem()
 {

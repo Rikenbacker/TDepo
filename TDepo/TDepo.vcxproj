@@ -186,6 +186,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\common\Ray3D.cpp" />
+    <ClCompile Include="..\src\common\Vector3DFloat.cpp" />
     <ClCompile Include="..\src\exceptions\FileSystemException.cpp" />
     <ClCompile Include="..\src\exceptions\TDepoException.cpp" />
     <ClCompile Include="..\src\exceptions\XMLException.cpp" />
@@ -202,6 +203,8 @@
     <ClCompile Include="..\src\objects\Rails.cpp" />
     <ClCompile Include="..\src\objects\RailSystem.cpp" />
     <ClCompile Include="..\src\objects\RailWay.cpp" />
+    <ClCompile Include="..\src\objects\SaveGameLinkers\ConnectorPair.cpp" />
+    <ClCompile Include="..\src\objects\SaveGameLinkers\ConnectorPairLinker.cpp" />
     <ClCompile Include="..\src\TDepo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +212,7 @@
     <ClInclude Include="..\src\common\Ray3D.h" />
     <ClInclude Include="..\src\common\Vector2D.h" />
     <ClInclude Include="..\src\common\Vector3D.h" />
+    <ClInclude Include="..\src\common\Vector3DFloat.h" />
     <ClInclude Include="..\src\exceptions\FileSystemException.h" />
     <ClInclude Include="..\src\exceptions\TDepoException.h" />
     <ClInclude Include="..\src\exceptions\XMLException.h" />
@@ -226,6 +230,8 @@
     <ClInclude Include="..\src\objects\Rails.h" />
     <ClInclude Include="..\src\objects\RailSystem.h" />
     <ClInclude Include="..\src\objects\RailWay.h" />
+    <ClInclude Include="..\src\objects\SaveGameLinkers\ConnectorPair.h" />
+    <ClInclude Include="..\src\objects\SaveGameLinkers\ConnectorPairLinker.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

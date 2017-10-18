@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3D.h"
+#include "Vector3DFloat.h"
 
 class Ray3D
 {

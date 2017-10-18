@@ -197,3 +197,8 @@ void statePlay::OnKeyPressed(LSDLEvent * evt)
 	}
 }
 */
+
+RailSystem *statePlay::getRailSystem()
+{
+	return &m_railSystem;
+}

@@ -17,20 +17,24 @@ saveGame::~saveGame()
 
 }
 
-bool saveGame::save(std::string path, gameState *game)
+bool saveGame::save(std::string path, statePlay *game)
 {
 	return false;
 }
 gameState *saveGame::load(std::string path)
 {
-	gameState *ret = new statePlay(m_graphicSystem, m_inputSystem);
+	statePlay *ret = new statePlay(m_graphicSystem, m_inputSystem);
 
-	loadRails(path, ret);
+	m_game = ret;
+
+	loadRails(path);
+
+	m_game = nullptr;
 
 	return ret;
 }
 
-void saveGame::loadRails(std::string path, gameState *game)
+void saveGame::loadRails(std::string path)
 {
 	FILE *railFile = nullptr;
 	path = std::string(TDEPO_LOADER_BASE_PATH) + "\\" + path + "\\" + std::string(TDEPO_LOADER_RAIL_FILENAME);
@@ -70,7 +74,7 @@ void saveGame::loadRails(std::string path, gameState *game)
 	while (pElem)
 	{
 		addBranch(pElem);
-		pElem->NextSiblingElement();
+		pElem = pElem->NextSiblingElement();
 	};
 
 
@@ -103,15 +107,27 @@ void saveGame::checkVersion(TiXmlElement* pElem)
 
 void saveGame::addBranch(TiXmlElement* pElem, bool newBranch)
 {
-	pElem = pElem->FirstChildElement("Line");
+	TiXmlAttribute *pAttr;
+
+	if (newBranch)
+	{
+		pAttr = pElem->FirstAttribute();
+		while (pAttr)
+		{
+			pAttr = pAttr->Next();
+		};
+	};
+
+	TiXmlHandle hDoc = TiXmlHandle(pElem);
+	pElem = hDoc.FirstChildElement("Line").Element();
 	while (pElem)
 	{
 		addLine(pElem);
-		pElem->NextSiblingElement();
+		pElem = pElem->NextSiblingElement();
 	};
 }
 
 void saveGame::addLine(TiXmlElement* pElem)
 {
-
+	m_game->getRailSystem()->addRailWay(nullptr);
 }

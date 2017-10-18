@@ -1,27 +1,16 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-16" ?>
 <RailRoad version="0.0.1">
+	<Connectors>
+		<Connector id="1" Position="100.0,100.0,100.0" Direction="-1.0,0.0,-1.0"/>
+		<Connector id="2" Position="200.0,100.0,200.0" Direction="-1.0,0.0,-1.0"/>
+		<Connector id="3" Position="150.0,100.0,200.0" Direction="1.0,0.0,1.0"/>		
+	</Connectors>
     <Branch name="MainLine" id="1">
-        <Line InPosition="100.0,100.0,100.0"
-			InDirection="-1.0,0.0,-1.0"
-			OutPosition="200.0,100.0,200.0"
-			OutDirection="1.0,0.0,1.0"
-			Method="Tripple"/>
-        <Line InPosition="200.0,100.0,200.0"
-			InDirection="-1.0,0.0,-1.0"
-			OutPosition="150.0,100.0,200.0"
-			OutDirection="1.0,0.0,1.0"
-			Method="Tripple"/>
+        <Line InConnector="1" OutConnector="2" Method="Tripple"/>
+        <Line InConnector="2" OutConnector="3" Method="Tripple"/>
     </Branch>
     <Branch name="Ответвление" id="2">
-        <Line InPosition="100.0,100.0,100.0"
-			InDirection="-1.0,0.0,-1.0"
-			OutPosition="200.0,100.0,200.0"
-			OutDirection="1.0,0.0,1.0"
-			Method="Tripple"/>
-        <Line InPosition="200.0,100.0,200.0"
-			InDirection="-1.0,0.0,-1.0"
-			OutPosition="150.0,100.0,200.0"
-			OutDirection="1.0,0.0,1.0"
-			Method="Tripple"/>
+        <Line InConnector="1" OutConnector="2" Method="Tripple"/>
+        <Line InConnector="2" OutConnector="3" Method="Tripple"/>
     </Branch>
 </RailRoad>

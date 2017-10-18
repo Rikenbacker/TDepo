@@ -185,6 +185,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\common\Ray3D.cpp" />
     <ClCompile Include="..\src\exceptions\FileSystemException.cpp" />
     <ClCompile Include="..\src\exceptions\TDepoException.cpp" />
     <ClCompile Include="..\src\exceptions\XMLException.cpp" />
@@ -197,10 +198,15 @@
     <ClCompile Include="..\src\graphics\WorldCamera.cpp" />
     <ClCompile Include="..\src\graphics\WorldTimer.cpp" />
     <ClCompile Include="..\src\objects\BaseGameObject.cpp" />
+    <ClCompile Include="..\src\objects\RailConnector.cpp" />
+    <ClCompile Include="..\src\objects\Rails.cpp" />
+    <ClCompile Include="..\src\objects\RailSystem.cpp" />
+    <ClCompile Include="..\src\objects\RailWay.cpp" />
     <ClCompile Include="..\src\TDepo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\MouseButtons.h" />
+    <ClInclude Include="..\src\common\Ray3D.h" />
     <ClInclude Include="..\src\common\Vector2D.h" />
     <ClInclude Include="..\src\common\Vector3D.h" />
     <ClInclude Include="..\src\exceptions\FileSystemException.h" />
@@ -216,6 +222,10 @@
     <ClInclude Include="..\src\graphics\WorldCamera.h" />
     <ClInclude Include="..\src\graphics\WorldTimer.h" />
     <ClInclude Include="..\src\objects\BaseGameObject.h" />
+    <ClInclude Include="..\src\objects\RailConnector.h" />
+    <ClInclude Include="..\src\objects\Rails.h" />
+    <ClInclude Include="..\src\objects\RailSystem.h" />
+    <ClInclude Include="..\src\objects\RailWay.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

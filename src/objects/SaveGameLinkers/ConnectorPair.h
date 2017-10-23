@@ -7,8 +7,14 @@
 class ConnectorPair
 {
 	public:
-		ConnectorPair();
+		ConnectorPair(std::wstring, Ray3D);
 		~ConnectorPair();
+
+		bool isEqual(std::wstring);
+
+
+		RailConnector *getLeft();
+		RailConnector *getRight();
 
 	private:
 		std::wstring name;

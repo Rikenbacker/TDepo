@@ -10,8 +10,5 @@ class RailSystem
 		~RailSystem();
 
 		void addRailWay(RailWay *);
-		void addConnector(RailConnector *);
-
-
 };
 

@@ -126,7 +126,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
-</Command>
+      </Command>
       <Message>Копирование файлов</Message>
     </PostBuildEvent>
     <PreLinkEvent>
@@ -186,7 +186,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\common\Ray3D.cpp" />
+    <ClCompile Include="..\src\common\StringConvertors.cpp" />
     <ClCompile Include="..\src\common\Vector3DFloat.cpp" />
+    <ClCompile Include="..\src\exceptions\ConvertException.cpp" />
     <ClCompile Include="..\src\exceptions\FileSystemException.cpp" />
     <ClCompile Include="..\src\exceptions\TDepoException.cpp" />
     <ClCompile Include="..\src\exceptions\XMLException.cpp" />
@@ -208,11 +210,14 @@
     <ClCompile Include="..\src\TDepo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\common\CameraState.h" />
     <ClInclude Include="..\src\common\MouseButtons.h" />
     <ClInclude Include="..\src\common\Ray3D.h" />
+    <ClInclude Include="..\src\common\StringConvertors.h" />
     <ClInclude Include="..\src\common\Vector2D.h" />
     <ClInclude Include="..\src\common\Vector3D.h" />
     <ClInclude Include="..\src\common\Vector3DFloat.h" />
+    <ClInclude Include="..\src\exceptions\ConvertException.h" />
     <ClInclude Include="..\src\exceptions\FileSystemException.h" />
     <ClInclude Include="..\src\exceptions\TDepoException.h" />
     <ClInclude Include="..\src\exceptions\XMLException.h" />

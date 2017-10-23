@@ -1,7 +1,7 @@
 #include "FileSystemException.h"
 
 
-FileSystemException::FileSystemException(std::string text)
+FileSystemException::FileSystemException(std::wstring text)
 : TDepoException(text)
 {
 

@@ -12,8 +12,3 @@ void RailSystem::addRailWay(RailWay *)
 {
 
 }
-
-void RailSystem::addConnector(RailConnector *)
-{
-
-}

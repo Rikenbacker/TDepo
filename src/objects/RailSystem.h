@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RailWay.h";
+#include "RailWay.h"
 #include "RailConnector.h"
 
 class RailSystem

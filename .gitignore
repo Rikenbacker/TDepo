@@ -14,6 +14,7 @@ Debugtinyxml
 *.userprefs
 
 # Build results
+cmake-build-debug/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

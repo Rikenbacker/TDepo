@@ -5,7 +5,7 @@
 #include "..\objects\SaveGameLinkers\ConnectorPairLinker.h"
 
 #include <string>
-#include <tinyxml.h>
+#include "tinyxml.h"
 
 #define TDEPO_LOADER_VERSION	"0.0.1"
 #define TDEPO_LOADER_RAIL_FILENAME	"railroad.xml"

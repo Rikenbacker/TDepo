@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(irrlicht)
 
-#add_definitions(-D_IRR_WINDOWS_API_)
 add_definitions(-D_IRR_STATIC_LIB_)
 
-set(CXXINCS "-Iinclude -Izlib -Ijpeglib -Ilibpng")
 include_directories(source/Irrlicht/zlib)
 
 set(source_GUI

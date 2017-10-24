@@ -6,6 +6,7 @@ class Ray3D
 {
 	public:
 		Ray3D();
+		Ray3D(TDC::Vector3DFloat position, TDC::Vector3DFloat direction);
 		~Ray3D();
 
 	private:

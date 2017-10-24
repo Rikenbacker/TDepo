@@ -20,10 +20,14 @@ class ConnectorPairLinker
 
 		//Удаляет из памяти те элементы, которые ни к чему не подсоеденины (в том числе и только половинки)
 		void deleteUnused();
+
 		void createPair(std::wstring name, Ray3D ray);
+		RailConnector *getUnlinkedConnector(std::wstring);
 
 	private:
 		std::vector<ConnectorPair*> connectorPairs;
+
+		ConnectorPair* searchConnector(std::wstring);
 		
 		
 };

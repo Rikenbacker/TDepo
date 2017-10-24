@@ -1,7 +1,7 @@
 #include "XMLException.h"
 
 
-XMLException::XMLException(std::string text)
+XMLException::XMLException(std::wstring text)
 : TDepoException(text)
 {
 }

@@ -10,6 +10,8 @@ namespace TDC
 			Vector3D() {};
 			~Vector3D() {};
 
+			void add(Vector3D _add) { x += _add.x; y += _add.y; z += _add.z; };
+
 			valType x;
 			valType y;
 			valType z;

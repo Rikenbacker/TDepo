@@ -3,7 +3,7 @@
 class XMLException : public TDepoException
 {
 	public:
-		XMLException(std::string text);
+		XMLException(std::wstring text);
 		~XMLException();
 };
 

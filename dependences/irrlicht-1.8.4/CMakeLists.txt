@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.8)
 project(irrlicht)
 
-add_definitions(-D_IRR_STATIC_LIB_)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+set (PROJECTNAME_ARCHITECTURE "x64")
+
+add_definitions(-DUNICODE -D_WIN64 -DWIN64 -DTIXML_USE_STL)
+
+add_definitions(-D_IRR_STATIC_LIB_ -DIRRLICHT_STATIC -DIRRLICHT_EXPORTS)
 
 include_directories(source/Irrlicht/zlib)
 
@@ -14,6 +20,7 @@ set(source_GUI
     source/Irrlicht/CGUICheckbox.cpp
     source/Irrlicht/CGUICheckbox.h
     source/Irrlicht/CGUIColorSelectDialog.h
+    source/Irrlicht/CGUIColorSelectDialog.cpp
     source/Irrlicht/CGUIComboBox.cpp
     source/Irrlicht/CGUIComboBox.h
     source/Irrlicht/CGUIContextMenu.cpp

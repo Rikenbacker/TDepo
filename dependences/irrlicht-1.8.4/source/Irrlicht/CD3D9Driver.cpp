@@ -3319,10 +3319,10 @@ IImage* CD3D9Driver::createScreenShot(video::ECOLOR_FORMAT format, video::E_REND
 		clientRect.bottom = clientRect.top  + ScreenSize.Height;
 
 		// window can be off-screen partly, we can't take screenshots from that
-		clientRect.left = core::max_(clientRect.left, 0l);
-		clientRect.top = core::max_(clientRect.top, 0l);
-		clientRect.right = core::min_(clientRect.right, (long)displayMode.Width);
-		clientRect.bottom = core::min_(clientRect.bottom, (long)displayMode.Height );
+		clientRect.left = core::max_(clientRect.left, (LONG)0l);
+		clientRect.top = core::max_(clientRect.top, (LONG)0l);
+		clientRect.right = core::min_(clientRect.right, (LONG)displayMode.Width);
+		clientRect.bottom = core::min_(clientRect.bottom, (LONG)displayMode.Height );
 	}
 
 	// lock our area of the surface

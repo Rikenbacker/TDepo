@@ -3,13 +3,9 @@ project(TrainDepo)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-#set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set (PROJECTNAME_ARCHITECTURE "x64")
 
-add_definitions(-DUNICODE -D_WIN64 -DWIN64 -DTIXML_USE_STL)
+add_definitions(-DUNICODE -D_WIN64 -DWIN64 -DTIXML_USE_STL -D_IRR_STATIC_LIB_ -D_STDCALL_SUPPORTED -D__CYGWIN__ -DIRR_COMPILE_WITH_DX9_DEV_PACK)
 
 include_directories(${PROJECT_SOURCE_DIR}/dependences/irrlicht-1.8.4/include)
 include_directories(${PROJECT_SOURCE_DIR}/dependences/tinyxml-2.6.2/include)
@@ -17,8 +13,47 @@ include_directories(${PROJECT_SOURCE_DIR}/dependences/tinyxml-2.6.2/include)
 add_subdirectory(dependences)
 add_subdirectory(src)
 
-add_executable(TrainDepo src/TDepo.cpp)
+set(TINYXML_FILES
+        dependences/tinyxml-2.6.2/tinyxml.cpp
+        dependences/tinyxml-2.6.2/tinyxmlerror.cpp
+        dependences/tinyxml-2.6.2/tinyxmlparser.cpp)
 
-target_link_libraries(TrainDepo tinyxml)
-target_link_libraries(TrainDepo irrlicht)
-target_link_libraries(TrainDepo TrainDepo_library)
+# DirectX SDK
+find_path (DirectX_ROOT_DIR
+        Include/d3d9.h
+        PATHS
+        "$ENV{DXSDK_DIR}"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (June 2010)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (June 2010)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (February 2010)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (February 2010)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (March 2009)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (March 2009)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (August 2008)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (August 2008)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (June 2008)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (June 2008)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (March 2008)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (March 2008)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (November 2007)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (November 2007)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK (August 2007)"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK (August 2007)"
+        "$ENV{ProgramFiles}/Microsoft DirectX SDK"
+        "$ENV{ProgramFiles\(x86\)}/Microsoft DirectX SDK"
+        DOC "DirectX SDK root directory"
+        )
+if (DirectX_ROOT_DIR)
+    set (DirectX_INC_SEARCH_PATH "${DirectX_ROOT_DIR}/Include")
+    set (DirectX_LIB_SEARCH_PATH "${DirectX_ROOT_DIR}/Lib/${DirectX_ARCHITECTURE}")
+    set (DirectX_BIN_SEARCH_PATH "${DirectX_ROOT_DIR}/Utilities/bin/x86")
+endif ()
+
+find_library (DirectX_D3D9_LIBRARY d3d9
+        PATHS ${DirectX_LIB_SEARCH_PATH}
+        DOC "The directory where d3d9 resides")
+
+add_executable(TrainDepo src/TDepo.cpp ${TINYXML_FILES})
+
+target_link_libraries(TrainDepo TrainDepo_library tinyxml irrlicht)
+target_link_libraries(TrainDepo gdi32 user32 winmm d3dx9 ${DirectX_D3D9_LIBRARY})

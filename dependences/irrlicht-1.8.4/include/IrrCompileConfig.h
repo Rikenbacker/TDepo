@@ -107,7 +107,7 @@
 
 
 //! Define _IRR_COMPILE_WITH_JOYSTICK_SUPPORT_ if you want joystick events.
-#define _IRR_COMPILE_WITH_JOYSTICK_EVENTS_
+//#define _IRR_COMPILE_WITH_JOYSTICK_EVENTS_
 #ifdef NO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_
 #undef _IRR_COMPILE_WITH_JOYSTICK_EVENTS_
 #endif
@@ -131,6 +131,8 @@ so D3D8 support is now disabled by default.  If you really want to build
 with D3D8 support, then you will have to source a DXSDK with the appropriate
 headers, e.g. Summer 2004.  This is a Microsoft issue, not an Irrlicht one.
 */
+#define _IRR_COMPILE_WITH_DX9_DEV_PACK_
+
 #if defined(_IRR_WINDOWS_API_) && (!defined(__GNUC__) || defined(IRR_COMPILE_WITH_DX9_DEV_PACK))
 
 //! Define _IRR_COMPILE_WITH_DIRECTINPUT_JOYSTICK_ if you want to use DirectInput for joystick handling.
@@ -161,7 +163,7 @@ If not defined, Windows Multimedia library is used, which offers also broad supp
 //! Define _IRR_COMPILE_WITH_OPENGL_ to compile the Irrlicht engine with OpenGL.
 /** If you do not wish the engine to be compiled with OpenGL, comment this
 define out. */
-#define _IRR_COMPILE_WITH_OPENGL_
+//#define _IRR_COMPILE_WITH_OPENGL_
 #ifdef NO_IRR_COMPILE_WITH_OPENGL_
 #undef _IRR_COMPILE_WITH_OPENGL_
 #endif

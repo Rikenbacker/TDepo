@@ -56,4 +56,4 @@ set(SOURCE_FILES
         common/StringConvertors.h
         common/StringConvertors.cpp)
 
-add_library(TrainDepo_library ${SOURCE_FILES})
+add_library(TrainDepo_library STATIC ${SOURCE_FILES})

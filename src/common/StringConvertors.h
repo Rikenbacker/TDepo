@@ -10,7 +10,7 @@ class StringConvertors
 		StringConvertors();
 		~StringConvertors();
 
-		static std::wstring utf8BytesToWString(const char *);
+		static std::wstring utf8BytesToWString(char const*);
 		static const std::string WideStringToString(std::wstring);
 		static const char* WideStringToBytes(std::wstring);
 

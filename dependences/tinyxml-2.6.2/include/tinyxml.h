@@ -256,9 +256,9 @@ public:
 								TiXmlParsingData* data, 
 								TiXmlEncoding encoding /*= TIXML_ENCODING_UNKNOWN */ ) = 0;
 
-	/** Expands entities in a string. Note this should not contian the tag's '<', '>', etc, 
-		or they will be transformed into entities!
-	*/
+    /** Expands entities in a string. Note this should not contian the tag's '<', '>', etc,
+        or they will be transformed into entities!
+    */
 	static void EncodeString( const TIXML_STRING& str, TIXML_STRING* out );
 
 	enum

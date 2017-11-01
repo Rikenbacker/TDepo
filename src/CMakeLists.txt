@@ -20,6 +20,8 @@ set(SOURCE_FILES
         exceptions/TDepoException.h
         exceptions/XMLException.cpp
         exceptions/XMLException.h
+        exceptions/ConvertException.cpp
+        exceptions/ConvertException.h
         gameState/gameState.cpp
         gameState/gameState.h
         gameState/gameStateDefines.h
@@ -50,6 +52,8 @@ set(SOURCE_FILES
         objects/SaveGameLinkers/ConnectorPair.cpp
         objects/SaveGameLinkers/ConnectorPair.h
         objects/SaveGameLinkers/ConnectorPairLinker.cpp
-        objects/SaveGameLinkers/ConnectorPairLinker.h)
+        objects/SaveGameLinkers/ConnectorPairLinker.h
+        common/StringConvertors.h
+        common/StringConvertors.cpp)
 
 add_library(TrainDepo_library ${SOURCE_FILES})

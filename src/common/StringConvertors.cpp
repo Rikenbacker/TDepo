@@ -14,7 +14,7 @@ StringConvertors::~StringConvertors()
 {
 }
 
-std::wstring StringConvertors::utf8BytesToWString(const char *in)
+std::wstring StringConvertors::utf8BytesToWString(char const *in)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	std::wstring wide = converter.from_bytes(in);

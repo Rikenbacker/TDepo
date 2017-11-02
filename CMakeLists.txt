@@ -13,11 +13,6 @@ include_directories(${PROJECT_SOURCE_DIR}/dependences/tinyxml-2.6.2/include)
 add_subdirectory(dependences)
 add_subdirectory(src)
 
-set(TINYXML_FILES
-        dependences/tinyxml-2.6.2/tinyxml.cpp
-        dependences/tinyxml-2.6.2/tinyxmlerror.cpp
-        dependences/tinyxml-2.6.2/tinyxmlparser.cpp)
-
 # DirectX SDK
 find_path (DirectX_ROOT_DIR
         Include/d3d9.h
@@ -53,7 +48,16 @@ find_library (DirectX_D3D9_LIBRARY d3d9
         PATHS ${DirectX_LIB_SEARCH_PATH}
         DOC "The directory where d3d9 resides")
 
-add_executable(TrainDepo src/TDepo.cpp ${TINYXML_FILES})
+add_executable(TrainDepo src/TDepo.cpp)
 
 target_link_libraries(TrainDepo TrainDepo_library tinyxml irrlicht)
 target_link_libraries(TrainDepo gdi32 user32 winmm d3dx9 ${DirectX_D3D9_LIBRARY})
+
+set (source "${CMAKE_SOURCE_DIR}/data")
+set (destination "${CMAKE_CURRENT_BINARY_DIR}/data")
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination}
+        DEPENDS ${destination}
+        COMMENT "symbolic link resources folder from ${source} => ${destination}"
+)

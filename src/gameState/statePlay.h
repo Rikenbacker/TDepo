@@ -19,6 +19,9 @@ class statePlay : public gameState
 		//—сылка на железнодорожную систему
 		RailSystem *getRailSystem();
 
+		//—сылка на камеру
+		WorldCamera *getCamera();
+
 //		void OnMouseWheelScroll(LSDLEvent *evt);
 //		void OnMouseClick(LSDLEvent *evt);
 //		void OnKeyPressed(LSDLEvent *evt);

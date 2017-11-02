@@ -1,6 +1,5 @@
 #include "GraphicSystem.h"
 
-
 #include "EDriverTypes.h"
 #include "irrTypes.h"
 #include "IrrlichtDevice.h"

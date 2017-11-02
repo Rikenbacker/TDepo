@@ -119,14 +119,15 @@ void statePlay::tick()
 {
 //	m_timer->tick();
 
+
 	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_W))
-		cube->move(0, 0.1, 0);
+		m_camera->rotateCamera(TDC::Vector3DFloat(0, 0.001, 0));
 	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_S))
-		cube->move(0, -0.1, 0);
+		m_camera->rotateCamera(TDC::Vector3DFloat(0, -0.001, 0));
 	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_A))
-		cube->move(0.1, 0, 0);
+		m_camera->rotateCamera(TDC::Vector3DFloat(0.001, 0, 0));
 	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_D))
-		cube->move(-0.1, 0, 0);
+		m_camera->rotateCamera(TDC::Vector3DFloat(-0.001, 0, 0));
 
 /*	if (m_inputSystem->isQuit())
 		setState(GameCondition::Exit);
@@ -201,4 +202,9 @@ void statePlay::OnKeyPressed(LSDLEvent * evt)
 RailSystem *statePlay::getRailSystem()
 {
 	return &m_railSystem;
+}
+
+WorldCamera *statePlay::getCamera()
+{
+	return m_camera;
 }

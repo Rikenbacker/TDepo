@@ -5,7 +5,7 @@
 class FileSystemException : public TDepoException
 {
 	public:
-		FileSystemException(std::string text);
+		FileSystemException(std::wstring text);
 		~FileSystemException();
 
 };

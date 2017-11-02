@@ -5,10 +5,11 @@
 #include "..\objects\SaveGameLinkers\ConnectorPairLinker.h"
 
 #include <string>
-#include <tinyxml.h>
+#include "tinyxml.h"
 
 #define TDEPO_LOADER_VERSION	"0.0.1"
 #define TDEPO_LOADER_RAIL_FILENAME	"railroad.xml"
+#define TDEPO_LOADER_ENVIROMENT_FILENAME	"enviroment.xml"
 #define TDEPO_LOADER_BASE_PATH	"data\\save"
 // Чтение/Запись игры
 class saveGame
@@ -22,6 +23,7 @@ class saveGame
 
 	private:
 		void loadRails(std::string);
+		void loadEnviroment(std::string);
 
 		GraphicSystem *m_graphicSystem = nullptr;
 		InputSystem *m_inputSystem = nullptr;
@@ -33,5 +35,8 @@ class saveGame
 		void addBranch(TiXmlElement* pElem, bool newBranch = true);
 		void addLine(TiXmlElement* pElem);
 		void addConnector(TiXmlElement* pElem);
+		void setCamera(TiXmlElement* pElem);
+
+		TiXmlElement *readXMLFile(std::string, std::string);
 };
 

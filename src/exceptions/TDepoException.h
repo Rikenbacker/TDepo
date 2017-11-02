@@ -6,12 +6,12 @@
 class TDepoException : public std::exception
 {
 	public:
-		TDepoException(std::string text);
+		TDepoException(std::wstring text);
 		~TDepoException();
 
 		virtual const char* what() const throw();
 
 	protected:
-		std::string m_text;
+		std::wstring m_text;
 };
 

@@ -32,5 +32,6 @@ class statePlay : public gameState
 		RailSystem m_railSystem;
 
 		BaseGameObject *cube;
+        irr::gui::IGUIStaticText* txt;
 };
 

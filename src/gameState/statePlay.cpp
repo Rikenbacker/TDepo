@@ -1,7 +1,6 @@
 #include "statePlay.h"
 
 #include <functional>
-#include "..\objects\BaseGameObject.h"
 
 statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 	gameState(gs, is)
@@ -9,6 +8,9 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 	m_camera = gs->getCamera();
 
 	cube = new BaseGameObject(gs);
+
+    txt = gs->getGuiEnvironment()->addStaticText(L"Hello World! This is the Irrlicht Software engine!", irr::core::rect<int>(10, 10, 400, 22), true);
+    txt->setText(L"HUI");
 	/*
 	Ogre::Item *item = m_graphicSystem->getSceneManager()->createItem("ogrehead.mesh", Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, Ogre::SCENE_DYNAMIC);
 	Ogre::SceneNode *sceneNode = m_graphicSystem->getSceneManager()->getRootSceneNode(Ogre::SCENE_DYNAMIC)->createChildSceneNode(Ogre::SCENE_DYNAMIC);
@@ -119,7 +121,28 @@ void statePlay::tick()
 {
 //	m_timer->tick();
 
+    if (m_inputSystem->IsKeyDown(irr::KEY_KEY_R))
+        m_camera->moveCamera(TDC::Vector3DFloat(0.01, 0, 0));
+    if (m_inputSystem->IsKeyDown(irr::KEY_KEY_F))
+        m_camera->moveCamera(TDC::Vector3DFloat(-0.01f, 0, 0));
+	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_W))
+		m_camera->rotateCamera(TDC::Vector3DFloat(0, 0, 0.001));
+	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_S))
+		m_camera->rotateCamera(TDC::Vector3DFloat(0, 0, -0.001f));
+	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_A))
+		m_camera->rotateCamera(TDC::Vector3DFloat(0, 0.001, 0));
+    if (m_inputSystem->IsKeyDown(irr::KEY_KEY_D))
+	    m_camera->rotateCamera(TDC::Vector3DFloat(0, -0.001f, 0));
+    if (m_inputSystem->IsKeyDown(irr::KEY_UP))
+        m_camera->moveCamera(TDC::Vector3DFloat(0, 0.01, 0));
+    if (m_inputSystem->IsKeyDown(irr::KEY_DOWN))
+        m_camera->moveCamera(TDC::Vector3DFloat(0, -0.01f, 0));
+    if (m_inputSystem->IsKeyDown(irr::KEY_LEFT))
+        m_camera->moveCamera(TDC::Vector3DFloat(0, 0, 0.01));
+    if (m_inputSystem->IsKeyDown(irr::KEY_RIGHT))
+        m_camera->moveCamera(TDC::Vector3DFloat(0, 0, -0.01f));
 
+/*
 	if (m_inputSystem->IsKeyDown(irr::KEY_KEY_W))
 		m_camera->rotateCamera(TDC::Vector3DFloat(0, 0.001, 0));
 	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_S))
@@ -128,10 +151,25 @@ void statePlay::tick()
 		m_camera->rotateCamera(TDC::Vector3DFloat(0.001, 0, 0));
 	else if (m_inputSystem->IsKeyDown(irr::KEY_KEY_D))
 		m_camera->rotateCamera(TDC::Vector3DFloat(-0.001, 0, 0));
-
+*/
 /*	if (m_inputSystem->isQuit())
 		setState(GameCondition::Exit);
 */
+    TDC::Vector3DFloat position = m_camera->getPosition();
+    TDC::Vector3DFloat target = m_camera->getTarget();
+    std::wstring text = L"Pos ";
+    text += std::to_wstring(position.x);
+    text += L",";
+    text += std::to_wstring(position.y);
+    text += L",";
+    text += std::to_wstring(position.z);
+    text += L", Trgt ";
+    text += std::to_wstring(target.x);
+    text += L",";
+    text += std::to_wstring(target.y);
+    text += L",";
+    text += std::to_wstring(target.z);
+    txt->setText(text.c_str());
 }
 
 GameCondition statePlay::getState()

@@ -23,7 +23,8 @@ class GraphicSystem
 		bool run();
 
 		irr::scene::ISceneManager *getSceneManager() const { return m_sceneManager; }
-		WorldCamera *getCamera() const { return m_worldCamera; }
+        irr::gui::IGUIEnvironment* getGuiEnvironment();
+        WorldCamera *getCamera() const { return m_worldCamera; }
 
 	private:
 

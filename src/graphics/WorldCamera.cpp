@@ -1,7 +1,5 @@
 #include "WorldCamera.h"
 
-#include <math.h> 
-
 WorldCamera::WorldCamera(irr::scene::ICameraSceneNode* camera)
 {
 	m_camera = camera;
@@ -12,7 +10,7 @@ WorldCamera::~WorldCamera()
 {
 }
 
-CameraState WorldCamera::getState(void)
+CameraState WorldCamera::getState()
 {
 	return m_state;
 }
@@ -24,99 +22,71 @@ void WorldCamera::setState(CameraState state)
 
 void WorldCamera::rotateCamera(TDC::Vector3DFloat delta)
 {
-	delta.add(direction);
-
-	rotateCameraTo(delta);
-	/*
-	irr::core::vector3df rot = m_camera->getTarget();
-	rot.X += deltaX;
-	rot.Y += deltaY;
-	rot.Z += deltaZ;
-	m_camera->setTarget(rot);
-	*/
-/*
-	switch (m_state)
-	{
-		case CameraState::Follow:
-			rotateCameraFollow(deltaX, deltaY, ticks);
-			break;
-		case CameraState::Free:
-			rotateCameraFree(deltaX, deltaY, ticks);
-			break;
-		default:
-			break;
-	};
-	*/
+    switch (m_state)
+    {
+        case CameraState::Free:
+            rotateCameraFree(&delta);
+            break;
+        case CameraState::Follow:
+            rotateCameraFollow(&delta);
+            break;
+        default:
+            break;
+    };
 }
 
 void WorldCamera::rotateCameraTo(TDC::Vector3DFloat angle)
 {
-	switch (m_state)
-	{
-		case CameraState::Free:
-			{
-				direction = angle;
-				float dx = range * cos(direction.x);
-				float dy = range * cos(direction.y);
-				float dz = range * cos(direction.z);
-				TDC::Vector3DFloat target(position.x + dx, position.y + dy, position.z + dz);
-				m_camera->setTarget(target.getIrr3df());
-			};
-			break;
-		case CameraState::Follow:
-			break;
-		default:
-			break;
-	};
+    direction = angle;
+    float dx = range * cos(direction.y) * sin(direction.z);
+    float dy = range * cos(direction.z);
+    float dz = range * sin(direction.y);
+    TDC::Vector3DFloat target(position.x + dx, position.y + dy, position.z + dz);
+    m_camera->setTarget(target.getIrr3df());
 }
 
-void WorldCamera::moveCamera(const TDC::Vector3DFloat delta)
+void WorldCamera::moveCamera(TDC::Vector3DFloat delta)
 {
-	/*
-	switch (m_state)
-	{
-	case CameraState::Follow:
-		moveCameraFollow(delta, ticks);
-		break;
-	case CameraState::Free:
-		moveCameraFree(delta, ticks);
-		break;
-	default:
-		break;
-	};*/
+    switch (m_state)
+    {
+        case CameraState::Free:
+            moveCameraFree(&delta);
+            break;
+        case CameraState::Follow:
+            moveCameraFollow(&delta);
+            break;
+        default:
+            break;
+    };
 }
 
 void WorldCamera::moveCameraTo(const TDC::Vector3DFloat newPos)
 {
-	m_camera->setPosition(irr::core::vector3df(newPos.x, newPos.y, newPos.z));
+    position = newPos;
+    m_camera->setPosition(position.getIrr3df());
 }
 
-void WorldCamera::rotateCameraFree(const int &deltaX, const int &deltaY, const unsigned long &ticks)
+void WorldCamera::rotateCameraFree(TDC::Vector3DFloat *delta)
 {
-	if (deltaX != 0)
-	{
-		float tsx = (float)deltaX / (float)ticks;
-//		m_camera->rotate(Ogre::Vector3(0, 1, 0), (Ogre::Radian)tsx);
-	};
+    delta->add(direction);
 
-	if (deltaY != 0)
-	{
-		float tsy = (float)-deltaY / (float)ticks;
-//		m_camera->rotate(Ogre::Vector3(1, 0, 0), (Ogre::Radian)tsy);
-	};
+    rotateCameraTo(*delta);
 }
 
-void WorldCamera::rotateCameraFollow(const int &deltaX, const int &deltaY, const unsigned long &ticks)
+void WorldCamera::rotateCameraFollow(TDC::Vector3DFloat *delta)
 {
 
 }
 
-void WorldCamera::moveCameraFree(const TDC::Vector3DFloat &delta, const unsigned long &ticks)
+void WorldCamera::moveCameraFree(TDC::Vector3DFloat *delta)
 {
-//	m_camera->moveRelative(delta.toOgreVector());
+    delta->add(position);
+
+    moveCameraTo(*delta);
+    rotateCameraTo(direction);
 }
 
-void WorldCamera::moveCameraFollow(const TDC::Vector3DFloat &delta, const unsigned long &ticks)
+void WorldCamera::moveCameraFollow(TDC::Vector3DFloat *delta)
 {
 }
 
@@ -130,4 +100,14 @@ void WorldCamera::setPosition(TDC::Vector3DFloat position)
 {
 	this->position = position;
 	moveCamera(TDC::Vector3DFloat(0.0, 0.0, 0.0));
+}
+
+TDC::Vector3DFloat WorldCamera::getPosition()
+{
+    return TDC::Vector3DFloat(m_camera->getPosition());
+}
+
+TDC::Vector3DFloat WorldCamera::getTarget()
+{
+    return TDC::Vector3DFloat(m_camera->getTarget());
 }

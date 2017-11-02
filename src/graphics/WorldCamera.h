@@ -9,10 +9,10 @@
 class WorldCamera
 {
 	public:
-		WorldCamera(irr::scene::ICameraSceneNode* camera);
+        explicit WorldCamera(irr::scene::ICameraSceneNode* camera);
 		~WorldCamera();
 
-		CameraState getState(void);
+		CameraState getState();
 		void setState(CameraState);
 
 		void rotateCamera(TDC::Vector3DFloat);
@@ -23,17 +23,21 @@ class WorldCamera
 		void setDirection(TDC::Vector3DFloat);
 		void setPosition(TDC::Vector3DFloat);
 
-	private:
+        TDC::Vector3DFloat getPosition();
+        TDC::Vector3DFloat getTarget();
+
+    private:
 		irr::scene::ICameraSceneNode* m_camera = nullptr;
 		CameraState m_state = CameraState::Free;
 
-		void rotateCameraFree(const int &deltaX, const int &deltaY, const unsigned long &ticks);
-		void rotateCameraFollow(const int &deltaX, const int &deltaY, const unsigned long &ticks);
+		void rotateCameraFree(TDC::Vector3DFloat *);
+		void rotateCameraFollow(TDC::Vector3DFloat *);
 
-		void moveCameraFree(const TDC::Vector3DFloat &delta, const unsigned long &ticks);
-		void moveCameraFollow(const TDC::Vector3DFloat &delta, const unsigned long &ticks);
+		void moveCameraFree(TDC::Vector3DFloat *);
+		void moveCameraFollow(TDC::Vector3DFloat *);
 
-		//Ќаправление камеры x - угол xy, y - угол yz, z - угол xz
+		//Ќаправление камеры x - угол поворота камеры вокруг своей оси, y - в плоскости xz, z - угол в плоскости xy
+        //–аботает только дл€ вида Free
 		TDC::Vector3DFloat direction;
 		TDC::Vector3DFloat position;
 

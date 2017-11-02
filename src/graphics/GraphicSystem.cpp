@@ -1,11 +1,5 @@
 #include "GraphicSystem.h"
 
-#include "EDriverTypes.h"
-#include "irrTypes.h"
-#include "IrrlichtDevice.h"
-#include "IGUIEnvironment.h"
-#include <irrlicht.h>
-
 GraphicSystem::GraphicSystem(irr::video::SColor backgroundColour) :
 	m_backgroundColour(backgroundColour)
 {
@@ -13,6 +7,7 @@ GraphicSystem::GraphicSystem(irr::video::SColor backgroundColour) :
 
 GraphicSystem::~GraphicSystem()
 {
+    deinitialize();
 }
 
 void GraphicSystem::setConfigPath(std::string configPath)
@@ -45,17 +40,6 @@ bool GraphicSystem::initialize(const std::wstring &windowTitle, InputSystem *inp
 
 	createCamera();
 
-	m_guiEnv->addStaticText(L"Hello World! This is the Irrlicht Software engine!", irr::core::rect<int>(10, 10, 200, 22), true);
-
-//	const irr::scene::IGeometryCreator *geomentryCreator = m_sceneManager->getGeometryCreator();
-
-//	irr::scene::IMesh* plane = geomentryCreator->createPlaneMesh(irr::core::dimension2d<irr::f32>(100, 100), irr::core::dimension2d<irr::u32>(100, 100));
-//	irr::scene::ISceneNode* ground = m_sceneManager->addMeshSceneNode(plane);
-//	ground->setPosition(irr::core::vector3df(0, 0, 10));
-//	plane->setMaterialFlag(irr::video::EMF_LIGHTING, false);    //This is important
-
-//	m_sceneManager->addMeshSceneNode(plane);
-
 	return true;
 }
 
@@ -64,12 +48,12 @@ void GraphicSystem::loadResources()
 
 }
 
-void GraphicSystem::setupResources(void)
+void GraphicSystem::setupResources()
 {
 
 }
 
-void GraphicSystem::deinitialize(void)
+void GraphicSystem::deinitialize()
 {
 	if (!m_device)
 		return;
@@ -132,4 +116,9 @@ bool GraphicSystem::run()
 		return m_device->run();
 
 	return false;
+}
+
+irr::gui::IGUIEnvironment *GraphicSystem::getGuiEnvironment()
+{
+    return m_guiEnv;
 }

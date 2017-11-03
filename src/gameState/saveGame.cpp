@@ -1,11 +1,8 @@
 #include "saveGame.h"
 
-#include "..\gameState\statePlay.h"
 #include "..\exceptions\FileSystemException.h"
 #include "..\exceptions\XMLException.h"
 #include "..\common\StringConvertors.h"
-
-#include <tinyxml.h>
 
 saveGame::saveGame(GraphicSystem *graphicSystem, InputSystem *inputSystem)
 {

@@ -1,4 +1,6 @@
 #include "statePlay.h"
+#include "../objects/SimpleCube.h"
+#include "../objects/RailMesh.h"
 
 #include <functional>
 
@@ -7,7 +9,11 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 {
 	m_camera = gs->getCamera();
 
-	cube = new BaseGameObject(gs);
+	cube = new SimpleCube(gs);
+    cube->moveTo(TDC::Vector3DFloat(50.0f, 50.0f, 50.0f));
+
+    cube = new RailMesh(gs);
+    cube->moveTo(TDC::Vector3DFloat(20.0f, 20.0f, 20.0f));
 
     txt = gs->getGuiEnvironment()->addStaticText(L"Hello World! This is the Irrlicht Software engine!", irr::core::rect<int>(10, 10, 400, 22), true);
     txt->setText(L"HUI");
@@ -115,6 +121,8 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
 
 statePlay::~statePlay()
 {
+    if (cube)
+        delete cube;
 }
 
 void statePlay::tick()

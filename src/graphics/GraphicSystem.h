@@ -5,6 +5,7 @@
 #include <string>
 #include "InputSystem.h"
 #include "WorldCamera.h"
+#include "../resources/resourcesStorage.h"
 
 class GraphicSystem
 {
@@ -17,7 +18,7 @@ class GraphicSystem
 
 		void setConfigPath(std::string);
 		void setLogPath(std::string);
-		void setResourcePath(std::string);
+		void setResourcePath(std::wstring);
 
 		void update();
 		bool run();
@@ -26,11 +27,14 @@ class GraphicSystem
         irr::gui::IGUIEnvironment* getGuiEnvironment();
         WorldCamera *getCamera() const { return m_worldCamera; }
 
+        //Загрузка внешних ресурсов игры
+        void loadResources();
+
 	private:
 
 		std::string m_configPath = "";
 		std::string m_logPath = "";
-		std::string m_resourcePath = "";
+		std::wstring m_resourcePath = L"";
 
 		irr::scene::ISceneManager *m_sceneManager = nullptr;
 
@@ -44,8 +48,8 @@ class GraphicSystem
 		void chooseSceneManager();
 		void createCamera();
 		void setupResources();
-		void loadResources();
 
 		int lastFPS = 0;
+        ResourcesStorage *resources = nullptr;
 };
 

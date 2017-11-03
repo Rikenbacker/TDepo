@@ -6,13 +6,14 @@
 class BaseGameObject
 {
 	public:
-		BaseGameObject(GraphicSystem *graphicSystem);
-		~BaseGameObject();
+		BaseGameObject();
+		virtual ~BaseGameObject();
 
-		void move(float x, float y, float z);
-		void moveTo(float x, float y, float z);
+		void move(TDC::Vector3DFloat);
+		void moveTo(TDC::Vector3DFloat);
 
-	private:
-		irr::scene::ISceneNode* m_body;
+    protected:
+		irr::scene::ISceneNode* sceneNode = nullptr;
+        TDC::Vector3DFloat position;
 };
 

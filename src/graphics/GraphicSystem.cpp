@@ -1,4 +1,5 @@
 #include "GraphicSystem.h"
+#include "../resources/ResourceLoader.h"
 
 GraphicSystem::GraphicSystem(irr::video::SColor backgroundColour) :
 	m_backgroundColour(backgroundColour)
@@ -7,6 +8,12 @@ GraphicSystem::GraphicSystem(irr::video::SColor backgroundColour) :
 
 GraphicSystem::~GraphicSystem()
 {
+    if (resources)
+    {
+        delete resources;
+        resources = nullptr;
+    };
+
     deinitialize();
 }
 
@@ -20,9 +27,9 @@ void GraphicSystem::setLogPath(std::string logPath)
 	m_logPath = logPath;
 }
 
-void GraphicSystem::setResourcePath(std::string pluginPath)
+void GraphicSystem::setResourcePath(std::wstring resourcePath)
 {
-	m_resourcePath = pluginPath;
+	m_resourcePath = resourcePath;
 }
 
 bool GraphicSystem::initialize(const std::wstring &windowTitle, InputSystem *inputSystem, bool fullScreen)
@@ -45,7 +52,14 @@ bool GraphicSystem::initialize(const std::wstring &windowTitle, InputSystem *inp
 
 void GraphicSystem::loadResources()
 {
+    if (resources)
+    {
+        resources->clear();
+        delete resources;
+    };
 
+    ResourceLoader loader(m_resourcePath);
+    resources = loader.load();
 }
 
 void GraphicSystem::setupResources()

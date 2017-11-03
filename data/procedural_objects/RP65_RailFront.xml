@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<procedure name="RP65_Rail">
+    <points>
+        <point name="LeftDown" outer="1">0.0,0.0</point>
+        <point name="RightDown" outer="1">0.0,-1.0</point>
+        <point name="RightUp" outer="1">1.0,-1.0</point>
+        <point name="LeftUp" outer="1">1.0,0.0</point>
+    </points>
+
+    <triangles>
+        <triangle A="LeftDown" B="RightUp" C="RightDown"/>
+        <triangle A="LeftUp" B="RightUp" C="LeftDown"/>
+    </triangles>
+</procedure>

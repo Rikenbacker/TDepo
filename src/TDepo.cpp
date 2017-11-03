@@ -2,9 +2,7 @@
 #include <string>
 
 #include "graphics\GraphicSystem.h"
-#include "graphics\InputSystem.h"
 #include "gameState\gameState.h"
-#include "gameState\statePlay.h"
 #include "gameState\saveGame.h"
 
 void setActiveDir();
@@ -18,7 +16,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 	
 	graphicSystem->setConfigPath("config\\");
 	graphicSystem->setLogPath("logs\\");
-	graphicSystem->setResourcePath("data\\");
+	graphicSystem->setResourcePath(L"data\\");
+
+    graphicSystem->loadResources();
+
 	InputSystem *inputSystem = new InputSystem();
 
 	if (!graphicSystem->initialize(L"Train Depo", inputSystem, false))
@@ -41,6 +42,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR strCmdLine, I
 		game->sleep();
 	};
 
+
+    delete game;
 
 	graphicSystem->deinitialize();
 	delete graphicSystem;

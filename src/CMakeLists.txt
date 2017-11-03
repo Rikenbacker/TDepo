@@ -54,6 +54,6 @@ set(SOURCE_FILES
         objects/SaveGameLinkers/ConnectorPairLinker.cpp
         objects/SaveGameLinkers/ConnectorPairLinker.h
         common/StringConvertors.h
-        common/StringConvertors.cpp)
+        common/StringConvertors.cpp objects/SimpleCube.cpp objects/SimpleCube.h objects/RailMesh.cpp objects/RailMesh.h resources/resourcesStorage.cpp resources/resourcesStorage.h resources/ProceduralProfile.cpp resources/ProceduralProfile.h resources/ResourceLoader.cpp resources/ResourceLoader.h common/FileSystem.cpp common/FileSystem.h common/Vector2DFloat.cpp common/Vector2DFloat.h)
 
 add_library(TrainDepo_library STATIC ${SOURCE_FILES})

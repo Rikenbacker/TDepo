@@ -1,33 +1,27 @@
 #include "BaseGameObject.h"
 
 
-BaseGameObject::BaseGameObject(GraphicSystem *graphicSystem)
+BaseGameObject::BaseGameObject()
 {
-	if (!graphicSystem || !graphicSystem->getSceneManager())
-		return;
-
-	m_body = graphicSystem->getSceneManager()->addCubeSceneNode(20);
-	m_body->setPosition(irr::core::vector3df(50, 50, 50));
-	m_body->render();
 }
 
 
 BaseGameObject::~BaseGameObject()
 {
-	m_body->drop();
+    if (sceneNode)
+        sceneNode->drop();
+
+    sceneNode = nullptr;
 }
 
-void BaseGameObject::move(float x, float y, float z)
+void BaseGameObject::move(TDC::Vector3DFloat delta)
 {
-	irr::core::vector3df nodePosition = m_body->getPosition();
-	nodePosition.X += x;
-	nodePosition.Y += y;
-	nodePosition.Z += z;
-
-	m_body->setPosition(nodePosition);
+    position.add(delta);
+    sceneNode->setPosition(position.getIrr3df());
 }
 
-void BaseGameObject::moveTo(float x, float y, float z)
+void BaseGameObject::moveTo(TDC::Vector3DFloat position)
 {
-	m_body->setPosition(irr::core::vector3df(x, y, z));
+    this->position = position;
+    sceneNode->setPosition(position.getIrr3df());
 }

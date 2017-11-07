@@ -22,7 +22,7 @@ bool saveGame::save(std::string path, statePlay *game)
 
 gameState *saveGame::load(std::string path)
 {
-	statePlay *ret = new statePlay(m_graphicSystem, m_inputSystem);
+	auto *ret = new statePlay(m_graphicSystem, m_inputSystem);
 
 	m_game = ret;
 
@@ -76,23 +76,12 @@ void saveGame::loadRails(std::string path)
 
 void saveGame::checkVersion(TiXmlElement* pElem)
 {
-	TiXmlAttribute *pAttr;
-
-	pAttr = pElem->FirstAttribute();
-	while (pAttr)
-	{
-		if (std::string(pAttr->Name()).compare(std::string("version")) == 0)
-		{
-			if (std::string(pAttr->Value()).compare(std::string(TDEPO_LOADER_VERSION)) == 0)
-				return;
-			else 
-				throw new XMLException(L"Incorrect version of save file");
-		};
-
-		pAttr = pAttr->Next();
-	};
-
-	throw new XMLException(L"File version not found");
+    if (pElem->Attribute("version"))
+    {
+        if (std::string(pElem->Attribute("version")) != TDEPO_LOADER_VERSION)
+            throw XMLException(L"Incorrect version of save file");
+    } else
+        throw XMLException(L"File version not found");
 }
 
 void saveGame::addBranch(TiXmlElement* pElem, bool newBranch)
@@ -108,7 +97,7 @@ void saveGame::addBranch(TiXmlElement* pElem, bool newBranch)
 		};
 	};
 
-	TiXmlHandle hDoc = TiXmlHandle(pElem);
+	TiXmlHandle hDoc(pElem);
 	pElem = hDoc.FirstChildElement("Line").Element();
 	while (pElem)
 	{
@@ -119,58 +108,32 @@ void saveGame::addBranch(TiXmlElement* pElem, bool newBranch)
 
 void saveGame::addLine(TiXmlElement* pElem)
 {
-	TiXmlAttribute *pAttr;
+    std::wstring strConIn = StringConvertors::utf8BytesToWString(pElem->Attribute("inConnector"));
+    std::wstring strConOut = StringConvertors::utf8BytesToWString(pElem->Attribute("outConnector"));
+    std::wstring strMethod = StringConvertors::utf8BytesToWString(pElem->Attribute("method"));
 
-	std::wstring strConIn, strConOut, strMetod;
+	if (strConIn.empty() || strConOut.empty() || strMethod.empty())
+		throw XMLException(std::wstring(L"Incorrect Line ") + strConIn + L" " + strConOut + L" " + strMethod);
 
-	pAttr = pElem->FirstAttribute();
-	while (pAttr)
-	{
-		if (std::string(pAttr->Name()).compare(std::string("inConnector")) == 0)
-			strConIn = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("outConnector")) == 0)
-			strConOut = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("method")) == 0)
-			strMetod = StringConvertors::utf8BytesToWString(pAttr->Value());
-
-		pAttr = pAttr->Next();
-	};
-
-	if (strConIn.empty() || strConOut.empty() || strMetod.empty())
-		throw new XMLException(std::wstring(L"Incorrect Line ") + strConIn + L" " + strConOut + L" " + strMetod);
-
-	RailConnector *connIn = connectorPairLilker.getUnlinkedConnector(strConIn);
+	RailConnector *connIn = connectorPairLilker.getUnlinkedConnector(&strConIn);
 	if (!connIn)
-		throw new XMLException(std::wstring(L"Connector ") + strConIn + L" not found");
+		throw XMLException(std::wstring(L"Connector ") + strConIn + L" not found");
 
-	RailConnector *connOut = connectorPairLilker.getUnlinkedConnector(strConOut);
+	RailConnector *connOut = connectorPairLilker.getUnlinkedConnector(&strConOut);
 	if (!connOut)
-		throw new XMLException(std::wstring(L"Connector ") + strConOut + L" not found");
+		throw XMLException(std::wstring(L"Connector ") + strConOut + L" not found");
 
 	m_game->getRailSystem()->addRailWay(new RailWay(connIn, connOut));
 }
 
 void saveGame::addConnector(TiXmlElement* pElem)
 {
-	TiXmlAttribute *pAttr;
-
-	std::wstring id, position, direction;
-
-	pAttr = pElem->FirstAttribute();
-	while (pAttr)
-	{
-		if (std::string(pAttr->Name()).compare(std::string("id")) == 0)
-			id = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("position")) == 0)
-			position = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("direction")) == 0)
-			direction = StringConvertors::utf8BytesToWString(pAttr->Value());
-
-		pAttr = pAttr->Next();
-	};
+	std::wstring id = StringConvertors::utf8BytesToWString(pElem->Attribute("id"));
+    std::wstring position = StringConvertors::utf8BytesToWString(pElem->Attribute("position"));
+    std::wstring direction = StringConvertors::utf8BytesToWString(pElem->Attribute("direction"));
 
 	if (id.empty() || position.empty() || direction.empty())
-		throw new XMLException(std::wstring(L"Incorrect Connector ") + id);
+		throw XMLException(std::wstring(L"Incorrect Connector ") + id);
 
 	TDC::Vector3DFloat pos = StringConvertors::WideStringToVector3DFloat(position);
 	TDC::Vector3DFloat dir = StringConvertors::WideStringToVector3DFloat(direction);
@@ -200,17 +163,17 @@ TiXmlElement *saveGame::readXMLFile(std::string fileName, std::string rootName)
 	
 	file = fopen(fileName.c_str(), "r");
 	if (!file)
-		throw new FileSystemException(L"File " + StringConvertors::utf8BytesToWString(fileName.c_str()) + L"not found!");
+		throw FileSystemException(L"File " + StringConvertors::utf8BytesToWString(fileName.c_str()) + L"not found!");
 	fclose(file);
 	file = nullptr;
 
-	TiXmlDocument *doc = new TiXmlDocument(fileName.c_str());
+	auto *doc = new TiXmlDocument(fileName.c_str());
 	doc->LoadFile();
 	if (doc->Error())
 	{
 		std::wstring str = StringConvertors::utf8BytesToWString(doc->ErrorDesc());
 		delete doc;
-		throw new XMLException(str);
+		throw XMLException(str);
 	};
 
 	TiXmlHandle hDoc(doc);
@@ -218,7 +181,7 @@ TiXmlElement *saveGame::readXMLFile(std::string fileName, std::string rootName)
 
 	pElem = hDoc.FirstChildElement(rootName.c_str()).Element();
 	if (!pElem)
-		throw new XMLException(L"Tag RailRoad not found.");
+		throw XMLException(L"Tag RailRoad not found.");
 
 	checkVersion(pElem);
 
@@ -228,28 +191,15 @@ TiXmlElement *saveGame::readXMLFile(std::string fileName, std::string rootName)
 
 void saveGame::setCamera(TiXmlElement* pElem)
 {
-	TiXmlAttribute *pAttr;
-
-	std::wstring strPosition, strDirection, strMode;
-
-	pAttr = pElem->FirstAttribute();
-	while (pAttr)
-	{
-		if (std::string(pAttr->Name()).compare(std::string("position")) == 0)
-			strPosition = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("direction")) == 0)
-			strDirection = StringConvertors::utf8BytesToWString(pAttr->Value());
-		if (std::string(pAttr->Name()).compare(std::string("state")) == 0)
-			strMode = StringConvertors::utf8BytesToWString(pAttr->Value());
-
-		pAttr = pAttr->Next();
-	};
+	std::wstring strPosition = StringConvertors::utf8BytesToWString(pElem->Attribute("position"));
+    std::wstring strDirection = StringConvertors::utf8BytesToWString(pElem->Attribute("direction"));
+    std::wstring strMode = StringConvertors::utf8BytesToWString(pElem->Attribute("state"));
 
 	m_game->getCamera()->setPosition(StringConvertors::WideStringToVector3DFloat(strPosition));
 	m_game->getCamera()->setDirection(StringConvertors::WideStringToVector3DFloat(strDirection));
 	m_game->getCamera()->setState(CameraStateMap.find(strMode)->second);
 
 	if (strPosition.empty() || strDirection.empty() || strMode.empty())
-		throw new XMLException(L"Incorrect Camera");
+		throw XMLException(L"Incorrect Camera");
 
 }

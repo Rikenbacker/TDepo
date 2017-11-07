@@ -7,18 +7,25 @@
 #include "../exceptions/XMLException.h"
 
 #include <tinyxml.h>
+#include <algorithm>
 
 struct ProceduralPoint
 {
     TDC::Vector2DFloat point;
-    bool outer = false;
+    int outerOrder = -1;
+    unsigned short index = 0;
 };
 
-typedef std::map<std::wstring, ProceduralPoint> ProceduralPointMap;
+typedef std::map<std::wstring, ProceduralPoint*> ProceduralPointMap;
+
+bool cmpByIndex(std::pair<std::wstring, ProceduralPoint*> const &a, std::pair<std::wstring, ProceduralPoint*> const &b)
+    {
+        return a.second->outerOrder < b.second->outerOrder;
+    };
 
 ResourceLoader::ResourceLoader(std::wstring path)
 {
-    this->path = path;
+    this->path = std::move(path);
 }
 
 ResourceLoader::~ResourceLoader()
@@ -28,7 +35,7 @@ ResourceLoader::~ResourceLoader()
 
 ResourcesStorage *ResourceLoader::load()
 {
-    ResourcesStorage *resources = new ResourcesStorage();
+    auto *resources = new ResourcesStorage();
 
     resources->setProceduralProfiles(loadProceduralProfiles());
 
@@ -37,7 +44,7 @@ ResourcesStorage *ResourceLoader::load()
 
 const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
 {
-    ProceduralProfileMap *proceduralProfileMap = new ProceduralProfileMap();
+    auto *proceduralProfileMap = new ProceduralProfileMap();
 
     for (std::wstring file : FileSystem::getFileList(path + TDEPO_LOADER_RESOURCE_PROCEDURAL, L"xml"))
     {
@@ -47,7 +54,7 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
         {
             std::wstring str = StringConvertors::utf8BytesToWString(doc->ErrorDesc());
             delete doc;
-            throw new XMLException(str);
+            throw XMLException(str);
         };
 
         TiXmlHandle hDoc(doc);
@@ -55,9 +62,9 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
 
         pElem = hDoc.FirstChildElement(TDEPO_LOADER_RESOURCE_PROCEDURAL_ROOT).Element();
         if (!pElem)
-            throw new XMLException(L"Root element in " + path + L" not found.");
+            throw XMLException(L"Root element in " + path + L" not found.");
 
-        ProceduralProfile *profile = new ProceduralProfile();
+        auto *profile = new ProceduralProfile();
 
         std::wstring profileName = StringConvertors::utf8StringToWString(pElem->Attribute("name"));
 
@@ -70,9 +77,10 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
             TiXmlHandle hPoint(pElemPts);
             for (TiXmlElement *pElemPt = hPoint.FirstChildElement("point").Element(); pElemPt; pElemPt = pElemPt->NextSiblingElement("point"))
             {
-                ProceduralPoint point;
-                point.point = StringConvertors::StringToVector2DFloat(pElemPt->GetText());
-                point.outer = std::string(pElemPt->Attribute("outer")).compare("1") == 0;
+                auto *point = new ProceduralPoint();
+                point->point = StringConvertors::StringToVector2DFloat(pElemPt->GetText());
+                if (pElemPt->Attribute("outer"))
+                    point->outerOrder = std::stoi(pElemPt->Attribute("outer"));
 
                 std::wstring ptName = StringConvertors::utf8StringToWString(pElemPt->Attribute("name"));
 
@@ -80,9 +88,13 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
             }
         }
 
+        // Добавляю точки в массив, нумеруя их позиции в списке
+        for (std::pair<const std::wstring, ProceduralPoint*> prPoint : points)
+            prPoint.second->index = profile->addPoint(prPoint.second->point);
+
         //Начитываю треугольники
         TiXmlHandle hTriangles(pElem);
-        for (TiXmlElement *pTriangles = hPoints.FirstChildElement("triangles").Element(); pTriangles; pTriangles = pTriangles->NextSiblingElement("triangles"))
+        for (TiXmlElement *pTriangles = hTriangles.FirstChildElement("triangles").Element(); pTriangles; pTriangles = pTriangles->NextSiblingElement("triangles"))
         {
             TiXmlHandle hTriangle(pTriangles);
             for (TiXmlElement *pTrieangle = hTriangle.FirstChildElement("triangle").Element(); pTrieangle; pTrieangle = pTrieangle->NextSiblingElement("triangle"))
@@ -92,15 +104,23 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
                 std::wstring nameC = StringConvertors::utf8StringToWString(pTrieangle->Attribute("C"));
 
                 if (points.find(nameA) == points.end() || points.find(nameB) == points.end() || points.find(nameC) == points.end())
-                    throw new XMLException(L"File " + file + L"consist error. Can't define points to triangle");
+                    throw XMLException(L"File " + file + L"consist error. Can't define points to triangle");
 
-                profile->addTriangle(points[nameA].point, points[nameB].point, points[nameC].point);
+                profile->addTriangle(points[nameA]->index, points[nameB]->index, points[nameC]->index);
             }
         }
 
-        for (std::pair<const std::wstring, ProceduralPoint> prPoint : points)
-            if (prPoint.second.outer)
-                profile->addPoint(prPoint.second.point);
+        // Добавляю по порядку контур фигуры
+        std::vector<std::pair<std::wstring, ProceduralPoint*>> vec(points.begin(), points.end() );
+        std::sort(vec.begin(), vec.end(), cmpByIndex);
+        for (std::pair<std::wstring, ProceduralPoint*> prPoint : vec)
+            if (prPoint.second->outerOrder >= 0)
+                profile->addCircuitPoint(prPoint.second->index);
+
+        vec.clear();
+
+        for (std::pair<std::wstring, ProceduralPoint*> prPoint : points)
+            delete prPoint.second;
 
         points.clear();
 

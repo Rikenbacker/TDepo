@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <procedure name="RP65_Rail">
     <points>
-        <point name="LeftDown" outer="1">0.0,0.0</point>
+        <point name="RightUp" outer="2">20.0,-20.0</point>
+        <point name="LeftDown" outer="0">0.0,0.0</point>
+        <point name="LeftUp" outer="3">20.0,0.0</point>
+        <point name="Center" >10.0,-10.0</point>
         <point name="RightDown" outer="1">0.0,-20.0</point>
-        <point name="RightUp" outer="1">20.0,-20.0</point>
-        <point name="LeftUp" outer="1">20.0,0.0</point>
     </points>
 
     <triangles>

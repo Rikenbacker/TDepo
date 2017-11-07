@@ -37,7 +37,7 @@ void ResourcesStorage::setProceduralProfiles(const ProceduralProfileMap &procedu
 ProceduralProfile *ResourcesStorage::getProceduralProfile(std::wstring name)
 {
     if (proceduralProfiles.find(name) == proceduralProfiles.end())
-        throw new ResourcesException(L"Resource " + name + L"not found.");
+        throw ResourcesException(L"Resource " + name + L"not found.");
 
     return proceduralProfiles.at(name);
 }

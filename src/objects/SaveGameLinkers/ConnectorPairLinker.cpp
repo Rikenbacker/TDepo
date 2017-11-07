@@ -31,24 +31,24 @@ void ConnectorPairLinker::deleteUnused()
 
 void ConnectorPairLinker::createPair(std::wstring name, Ray3D ray)
 {
-	if (searchConnector(name))
-		throw new XMLException(L"Connector " + name + L" already exists.");
+	if (searchConnector(&name))
+		throw XMLException(L"Connector " + name + L" already exists.");
 
 	connectorPairs.push_back(new ConnectorPair(name, ray));
 }
 
-ConnectorPair* ConnectorPairLinker::searchConnector(std::wstring name)
+ConnectorPair* ConnectorPairLinker::searchConnector(std::wstring *name)
 {
 	for (ConnectorPair* pair : connectorPairs)
 	{
-		if (pair->isEqual(name))
+		if (pair->isEqual(*name))
 			return pair;
 	};
 	
 	return nullptr;
 }
 
-RailConnector *ConnectorPairLinker::getUnlinkedConnector(std::wstring name)
+RailConnector *ConnectorPairLinker::getUnlinkedConnector(std::wstring *name)
 {
 	ConnectorPair *pair = searchConnector(name);
 	if (!pair)

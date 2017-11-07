@@ -25,7 +25,7 @@ std::vector<std::wstring> FileSystem::getFileList(std::wstring path, std::wstrin
         }
         closedir(pDIR);
     } else
-        throw new FileSystemException(L"Directory " + path + L" not found!");
+        throw FileSystemException(L"Directory " + path + L" not found!");
 
     return ret;
 }
@@ -37,10 +37,10 @@ bool FileSystem::checkExtension(std::wstring filename, std::wstring extension)
 
     extension = StringConvertors::toLower(extension);
 
-    if (filename.find_last_of(L".") == std::wstring::npos)
+    if (filename.find_last_of(L'.') == std::wstring::npos)
         return false;
 
-    std::wstring cmp = StringConvertors::toLower(filename.substr(filename.find_last_of(L".") + 1));
+    std::wstring cmp = StringConvertors::toLower(filename.substr(filename.find_last_of(L'.') + 1));
 
-    return extension.compare(cmp) == 0;
+    return extension == cmp;
 }

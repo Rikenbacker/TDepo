@@ -57,7 +57,7 @@ TDC::Vector3DFloat StringConvertors::StringToVector3DFloat(std::string in)
 		ret = TDC::Vector3DFloat(x, y, z);
 	} catch (...)
 	{
-		throw new ConvertException(L"Conversation error. Can't convert " + utf8BytesToWString(in.c_str()) + L"to \"0.0,0.0,0.0\"");
+		throw ConvertException(L"Conversation error. Can't convert " + utf8BytesToWString(in.c_str()) + L"to \"0.0,0.0,0.0\"");
 	}
 
 	return ret;
@@ -103,7 +103,7 @@ TDC::Vector2DFloat StringConvertors::StringToVector2DFloat(std::string in)
         ret = TDC::Vector2DFloat(x, y);
     } catch (...)
     {
-        throw new ConvertException(L"Conversation error. Can't convert " + utf8BytesToWString(in.c_str()) + L"to \"0.0,0.0,0.0\"");
+        throw ConvertException(L"Conversation error. Can't convert " + utf8BytesToWString(in.c_str()) + L"to \"0.0,0.0,0.0\"");
     }
 
     return ret;

@@ -12,21 +12,55 @@ ProceduralProfile::~ProceduralProfile()
 {
     points.clear();
     triangles.clear();
+    circuit.clear();
 }
 
-void ProceduralProfile::addTriangle(TDC::Vector2DFloat a, TDC::Vector2DFloat b, TDC::Vector2DFloat c)
+void ProceduralProfile::addTriangle(unsigned short a, unsigned short b, unsigned short c)
 {
     triangles.push_back(a);
     triangles.push_back(b);
     triangles.push_back(c);
 }
 
-void ProceduralProfile::addPoint(TDC::Vector2DFloat point)
+unsigned short ProceduralProfile::addPoint(TDC::Vector2DFloat point)
 {
     points.push_back(point);
+    return (unsigned short)points.size() - 1;
 }
 
-const std::vector<TDC::Vector2DFloat> ProceduralProfile::getTriangles()
+const std::vector<unsigned short> *ProceduralProfile::getTriangles()
 {
-    return triangles;
+    return &triangles;
 }
+
+const std::vector<TDC::Vector2DFloat *> *ProceduralProfile::getCircuit()
+{
+    return &circuit;
+}
+
+void ProceduralProfile::addCircuitPoint(int positionPoint)
+{
+    circuit.push_back(&points[positionPoint]);
+}
+
+const TDC::Vector2DFloat *ProceduralProfile::getPointsArray()
+{
+    return &points[0];
+}
+
+const std::vector<TDC::Vector2DFloat> *ProceduralProfile::getPoints()
+{
+    return &points;
+}
+
+const unsigned short *ProceduralProfile::getTrianglesArray()
+{
+    return &triangles[0];
+}
+
+unsigned long ProceduralProfile::getTrianglesCount()
+{
+    return triangles.size();
+}
+
+

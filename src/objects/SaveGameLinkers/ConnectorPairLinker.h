@@ -22,12 +22,12 @@ class ConnectorPairLinker
 		void deleteUnused();
 
 		void createPair(std::wstring name, Ray3D ray);
-		RailConnector *getUnlinkedConnector(std::wstring);
+		RailConnector *getUnlinkedConnector(std::wstring *);
 
 	private:
 		std::vector<ConnectorPair*> connectorPairs;
 
-		ConnectorPair* searchConnector(std::wstring);
+		ConnectorPair* searchConnector(std::wstring *);
 		
 		
 };

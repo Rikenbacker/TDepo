@@ -14,15 +14,66 @@ class ProceduralProfile
         ProceduralProfile();
         ~ProceduralProfile();
 
-        void addTriangle(TDC::Vector2DFloat, TDC::Vector2DFloat, TDC::Vector2DFloat);
-        void addPoint(TDC::Vector2DFloat);
+        /*!
+         * Добавляет точку в хранилище точек
+         * @param pt: точка
+         * @return Номер точки в списке
+         */
+        unsigned short addPoint(TDC::Vector2DFloat pt);
 
-        const std::vector<TDC::Vector2DFloat> getTriangles();
+        /*!
+         * Возвращает указатель на массив точек
+         * @return указатель на масстив точек
+         */
+        const TDC::Vector2DFloat *getPointsArray();
+
+        /*!
+         * Возвращает указатель на список точек
+         * @return указатель на список точек
+         */
+        const std::vector<TDC::Vector2DFloat> *getPoints();
+
+        /*!
+         * Добавляет треугольник к отображению профиля объекта по индексам в массиве
+         * \param a Порядковый номер в массиве точек первой точки
+         * \param b Порядковый номер в массиве точек второй точки
+         * \param c Порядковый номер в массиве точек третьей точки
+         */
+        void addTriangle(unsigned short a, unsigned short b, unsigned short c);
+
+        /*!
+         * Возвращает указатель на массив последовательностей точек для построения треугольников
+         * @return указатель на массив последовательностей точек для построения треугольников
+         */
+        const unsigned short *getTrianglesArray();
+
+        /*!
+         * Возвращает длину списка точек для построения треугольников
+         * @return длина списка точек для построения треугольников
+         */
+        unsigned long getTrianglesCount();
+
+        //! Добавляет точку в список точек составляющих контур профиля
+        /** \param positionPoint: порядковый номер точки в массиве */
+        void addCircuitPoint(int positionPoint);
+
+        /*!
+         * Возвращает список индексов для построения треугольников профиля фигуры
+         * @return указатель на список индексов точек массива
+         */
+        const std::vector<unsigned short> *getTriangles();
+
+        /*!
+         * Возвращает список точек составляющих контур профиля
+         * @return указатель на список указателей на точки
+         */
+        const std::vector<TDC::Vector2DFloat *> *getCircuit();
 
     private:
         //Список внешних точек, для построения объема
         std::vector<TDC::Vector2DFloat> points;
 
         //Список точек кратный трём, для построения из треугольников профиля.
-        std::vector<TDC::Vector2DFloat> triangles;
+        std::vector<unsigned short> triangles;
+        std::vector<TDC::Vector2DFloat *> circuit;
 };

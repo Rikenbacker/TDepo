@@ -7,7 +7,7 @@ class TDepoException : public std::exception
 {
 	public:
 		TDepoException(std::wstring text);
-		~TDepoException();
+		virtual ~TDepoException();
 
 		virtual const char* what() const throw();
 

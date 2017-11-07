@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Enivroment version="0.0.1">
-	<Camera position="0.0,0.0,0.0" direction="0.0,0.785398,0.785398" state="Free" target=""/>
+	<Camera position="0.0,0.0,0.0" direction="0.0,0.0,1.4" state="Free" target=""/>
 </Enivroment>

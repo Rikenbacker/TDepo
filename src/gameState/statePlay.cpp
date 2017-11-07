@@ -13,7 +13,7 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
     cube->moveTo(TDC::Vector3DFloat(50.0f, 50.0f, 50.0f));
 
     cube = new RailMesh(gs);
-    cube->moveTo(TDC::Vector3DFloat(20.0f, 20.0f, 20.0f));
+    cube->moveTo(TDC::Vector3DFloat(50.0f, 00.0f, 0.0f));
 
     txt = gs->getGuiEnvironment()->addStaticText(L"Hello World! This is the Irrlicht Software engine!", irr::core::rect<int>(10, 10, 400, 22), true);
     txt->setText(L"HUI");

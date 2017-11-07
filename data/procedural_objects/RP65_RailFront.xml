@@ -2,9 +2,9 @@
 <procedure name="RP65_Rail">
     <points>
         <point name="LeftDown" outer="1">0.0,0.0</point>
-        <point name="RightDown" outer="1">0.0,-1.0</point>
-        <point name="RightUp" outer="1">1.0,-1.0</point>
-        <point name="LeftUp" outer="1">1.0,0.0</point>
+        <point name="RightDown" outer="1">0.0,-20.0</point>
+        <point name="RightUp" outer="1">20.0,-20.0</point>
+        <point name="LeftUp" outer="1">20.0,0.0</point>
     </points>
 
     <triangles>

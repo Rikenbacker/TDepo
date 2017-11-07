@@ -5,7 +5,6 @@ BaseGameObject::BaseGameObject()
 {
 }
 
-
 BaseGameObject::~BaseGameObject()
 {
     if (sceneNode)

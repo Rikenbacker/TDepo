@@ -17,6 +17,8 @@ class ProceduralProfile
         void addTriangle(TDC::Vector2DFloat, TDC::Vector2DFloat, TDC::Vector2DFloat);
         void addPoint(TDC::Vector2DFloat);
 
+        const std::vector<TDC::Vector2DFloat> getTriangles();
+
     private:
         //Список внешних точек, для построения объема
         std::vector<TDC::Vector2DFloat> points;

@@ -17,6 +17,7 @@ class ResourcesStorage
         void clear();
 
         void setProceduralProfiles(const ProceduralProfileMap &proceduralProfiles);
+        ProceduralProfile *getProceduralProfile(std::wstring);
 
     private:
         ProceduralProfileMap proceduralProfiles;

@@ -30,6 +30,8 @@ class GraphicSystem
         //Загрузка внешних ресурсов игры
         void loadResources();
 
+        ResourcesStorage *getResources();
+
 	private:
 
 		std::string m_configPath = "";

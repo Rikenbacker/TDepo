@@ -136,3 +136,8 @@ irr::gui::IGUIEnvironment *GraphicSystem::getGuiEnvironment()
 {
     return m_guiEnv;
 }
+
+ResourcesStorage *GraphicSystem::getResources()
+{
+    return resources;
+}

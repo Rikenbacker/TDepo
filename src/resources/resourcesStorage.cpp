@@ -4,6 +4,7 @@
 
 #include <map>
 #include "resourcesStorage.h"
+#include "../exceptions/ResourcesException.h"
 
 ResourcesStorage::ResourcesStorage()
 {
@@ -31,4 +32,12 @@ void ResourcesStorage::proceduralProfilesClear()
 void ResourcesStorage::setProceduralProfiles(const ProceduralProfileMap &proceduralProfiles)
 {
     this->proceduralProfiles = proceduralProfiles;
+}
+
+ProceduralProfile *ResourcesStorage::getProceduralProfile(std::wstring name)
+{
+    if (proceduralProfiles.find(name) == proceduralProfiles.end())
+        throw new ResourcesException(L"Resource " + name + L"not found.");
+
+    return proceduralProfiles.at(name);
 }

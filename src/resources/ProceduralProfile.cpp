@@ -25,3 +25,8 @@ void ProceduralProfile::addPoint(TDC::Vector2DFloat point)
 {
     points.push_back(point);
 }
+
+const std::vector<TDC::Vector2DFloat> ProceduralProfile::getTriangles()
+{
+    return triangles;
+}

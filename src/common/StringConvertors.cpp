@@ -23,7 +23,8 @@ const std::string StringConvertors::WideStringToString(std::wstring in)
     using convert_typeX = std::codecvt_utf8<wchar_t>;
     std::wstring_convert<convert_typeX, wchar_t> converterX;
 
-    return converterX.to_bytes(in);
+    std::string ret = converterX.to_bytes(in);
+    return ret;
 }
 
 const char *StringConvertors::WideStringToBytes(std::wstring in)

@@ -1,10 +1,5 @@
 #include "BaseGameObject.h"
 
-
-BaseGameObject::BaseGameObject()
-{
-}
-
 BaseGameObject::~BaseGameObject()
 {
     if (sceneNode)
@@ -23,4 +18,9 @@ void BaseGameObject::moveTo(TDC::Vector3DFloat position)
 {
     this->position = position;
     sceneNode->setPosition(position.getIrr3df());
+}
+
+TDC::Vector3DFloat *const BaseGameObject::getPosition()
+{
+    return &position;
 }

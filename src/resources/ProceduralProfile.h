@@ -11,7 +11,7 @@
 class ProceduralProfile
 {
     public:
-        ProceduralProfile();
+        ProceduralProfile() = default;
         ~ProceduralProfile();
 
         /*!
@@ -55,7 +55,7 @@ class ProceduralProfile
 
         //! Добавляет точку в список точек составляющих контур профиля
         /** \param positionPoint: порядковый номер точки в массиве */
-        void addCircuitPoint(int positionPoint);
+        void addCircuitPoint(unsigned short positionPoint);
 
         /*!
          * Возвращает список индексов для построения треугольников профиля фигуры
@@ -67,7 +67,7 @@ class ProceduralProfile
          * Возвращает список точек составляющих контур профиля
          * @return указатель на список указателей на точки
          */
-        const std::vector<TDC::Vector2DFloat *> *getCircuit();
+        const std::vector<unsigned short> *getCircuit();
 
     private:
         //Список внешних точек, для построения объема
@@ -75,5 +75,5 @@ class ProceduralProfile
 
         //Список точек кратный трём, для построения из треугольников профиля.
         std::vector<unsigned short> triangles;
-        std::vector<TDC::Vector2DFloat *> circuit;
+        std::vector<unsigned short> circuit;
 };

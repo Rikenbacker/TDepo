@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <procedure name="RP65_Rail">
     <points>
-        <point name="RightUp" outer="2">20.0,-20.0</point>
-        <point name="LeftDown" outer="0">0.0,0.0</point>
-        <point name="LeftUp" outer="3">20.0,0.0</point>
-        <point name="Center" >10.0,-10.0</point>
-        <point name="RightDown" outer="1">0.0,-20.0</point>
+        <point name="Start00" outer="0">0.0,0.0</point>
+        <point name="01" outer="1">0.0,14.92</point>
+        <point name="02" outer="2">1.09,14.92</point>
+        <point name="03" outer="3">2.779,8.506</point>
+        <point name="04" outer="4">13.471,8.506</point>
+        <point name="05" outer="5">14.411,11.176</point>
+        <point name="06" outer="6">16.401,11.076</point>
+        <point name="07" outer="7">17.971,9.876</point>
+        <point name="08" outer="8">17.971,4.976</point>
+        <point name="09" outer="9">16.401,3.776</point>
+        <point name="10" outer="10">14.411,3.676</point>
+        <point name="11" outer="11">13.471,6.3466</point>
+        <point name="12" outer="12">2.779,6.346</point>
+        <point name="13" outer="13">1.09,0.0</point>
     </points>
 
     <triangles>
-        <triangle A="LeftDown" B="RightUp" C="RightDown"/>
-        <triangle A="LeftUp" B="RightUp" C="LeftDown"/>
+        <triangle A="Start00" B="01" C="02"/>
+        <triangle A="Start00" B="02" C="13"/>
+        <triangle A="13" B="02" C="03"/>
+        <triangle A="13" B="03" C="12"/>
+        <triangle A="12" B="03" C="11"/>
+        <triangle A="03" B="04" C="11"/>
+        <triangle A="11" B="04" C="05"/>
+        <triangle A="11" B="05" C="10"/>
+        <triangle A="05" B="09" C="10"/>
+        <triangle A="05" B="08" C="09"/>
+        <triangle A="05" B="07" C="08"/>
+        <triangle A="05" B="06" C="07"/>
     </triangles>
 </procedure>

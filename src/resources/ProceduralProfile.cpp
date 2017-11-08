@@ -3,11 +3,6 @@
 //
 #include "ProceduralProfile.h"
 
-ProceduralProfile::ProceduralProfile()
-{
-
-}
-
 ProceduralProfile::~ProceduralProfile()
 {
     points.clear();
@@ -33,14 +28,14 @@ const std::vector<unsigned short> *ProceduralProfile::getTriangles()
     return &triangles;
 }
 
-const std::vector<TDC::Vector2DFloat *> *ProceduralProfile::getCircuit()
+const std::vector<unsigned short> *ProceduralProfile::getCircuit()
 {
     return &circuit;
 }
 
-void ProceduralProfile::addCircuitPoint(int positionPoint)
+void ProceduralProfile::addCircuitPoint(unsigned short positionPoint)
 {
-    circuit.push_back(&points[positionPoint]);
+    circuit.push_back(positionPoint);
 }
 
 const TDC::Vector2DFloat *ProceduralProfile::getPointsArray()

@@ -33,5 +33,7 @@ class statePlay : public gameState
 
 		BaseGameObject *cube;
         irr::gui::IGUIStaticText* txt;
+        irr::scene::ILightSceneNode*  pLight;
+        float dz = 0.01f;
 };
 

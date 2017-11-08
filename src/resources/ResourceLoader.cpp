@@ -48,11 +48,12 @@ const ProceduralProfileMap ResourceLoader::loadProceduralProfiles()
 
     for (std::wstring file : FileSystem::getFileList(path + TDEPO_LOADER_RESOURCE_PROCEDURAL, L"xml"))
     {
-        TiXmlDocument *doc = new TiXmlDocument(StringConvertors::WideStringToBytes(file));
+        std::string hui = StringConvertors::WideStringToString(file);
+        TiXmlDocument *doc = new TiXmlDocument(StringConvertors::WideStringToString(file).c_str()/*StringConvertors::WideStringToBytes(file)*/);
         doc->LoadFile();
         if (doc->Error())
         {
-            std::wstring str = StringConvertors::utf8BytesToWString(doc->ErrorDesc());
+            std::wstring str = StringConvertors::utf8BytesToWString(doc->ErrorDesc()) + L" (" + file + L")";
             delete doc;
             throw XMLException(str);
         };

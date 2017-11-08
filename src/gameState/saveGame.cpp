@@ -40,7 +40,7 @@ void saveGame::loadRails(std::string path)
 	TiXmlHandle hDoc(pElemRoot);
 	TiXmlElement* pElem = nullptr;
 
-	//Добавляю коннекторы
+	//Aiaaaey? eiiiaeoi?u
 	connectorPairLilker.clear();
 	
 	TiXmlElement *pElemCons = hDoc.FirstChildElement("Connectors").Element();
@@ -57,10 +57,10 @@ void saveGame::loadRails(std::string path)
 		pElemCons = pElemCons->NextSiblingElement("Connectors");
 	};
 	
-	//Добавляю пути не объединённые в ветки
+	//Aiaaaey? iooe ia iauaaei?iiua a aaoee
 	addBranch(pElem, false);
 
-	//Добавляю ветки
+	//Aiaaaey? aaoee
 	hDoc = TiXmlHandle(pElem);
 	pElem = hDoc.FirstChildElement("Branch").Element();
 	while (pElem)
@@ -148,7 +148,7 @@ void saveGame::loadEnviroment(std::string path)
 
 	TiXmlHandle hDoc(pElemRoot);
 	
-	//Читаю камеру
+	//?eoa? eaia?o
 	connectorPairLilker.clear();
 	hDoc = TiXmlHandle(pElemRoot);
 	for (TiXmlElement *pElemCam = hDoc.FirstChildElement("Camera").Element(); pElemCam; pElemCam = pElemCam->NextSiblingElement("Camera"))

@@ -13,10 +13,15 @@ statePlay::statePlay(GraphicSystem *gs, InputSystem *is) :
     cube->moveTo(TDC::Vector3DFloat(50.0f, 50.0f, 50.0f));
 
     cube = new RailMesh(gs);
-    cube->moveTo(TDC::Vector3DFloat(50.0f, 00.0f, 0.0f));
+    cube->moveTo(TDC::Vector3DFloat(50.0f, 00.0f, -200.0f));
 
     txt = gs->getGuiEnvironment()->addStaticText(L"Hello World! This is the Irrlicht Software engine!", irr::core::rect<int>(10, 10, 400, 22), true);
     txt->setText(L"HUI");
+
+    pLight = gs->getSceneManager()->addLightSceneNode();
+    irr::video::SLight & l = pLight->getLightData();
+    l.Type = irr::video::E_LIGHT_TYPE::ELT_POINT;
+    pLight->setPosition(irr::core::vector3df(-10.0f, 30.0f, 30.0f));
 	/*
 	Ogre::Item *item = m_graphicSystem->getSceneManager()->createItem("ogrehead.mesh", Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, Ogre::SCENE_DYNAMIC);
 	Ogre::SceneNode *sceneNode = m_graphicSystem->getSceneManager()->getRootSceneNode(Ogre::SCENE_DYNAMIC)->createChildSceneNode(Ogre::SCENE_DYNAMIC);
@@ -178,6 +183,12 @@ void statePlay::tick()
     text += L",";
     text += std::to_wstring(target.z);
     txt->setText(text.c_str());
+
+
+    cube->move(TDC::Vector3DFloat(0.0f, 0.0f, dz));
+    if (cube->getPosition()->z > 200 || cube->getPosition()->z < -200)
+        dz = dz * -1.0f;
+
 }
 
 GameCondition statePlay::getState()
